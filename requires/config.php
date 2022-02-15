@@ -8,7 +8,7 @@
     $db_hosti = "localhost";
     $db_useri = "root";
     $db_passi = "";
-    $db_datai = "schierdam";
+    $db_datai = "politie";
 
     $con = new mysqli($db_hosti,$db_useri,$db_passi,$db_datai);
 ?>
