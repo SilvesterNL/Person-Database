@@ -16,3 +16,6 @@ sidebarBtn.addEventListener("click", ()=>{
 });
 
 sidebar.classList.toggle("close");
+
+
+console.log("Het menu is ingeladen");
