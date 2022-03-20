@@ -1,12 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-
 
 body {
     padding-top: 5rem;
-    font-family: 'Poppins', sans-serif!important;
-
+    font-family: 'Roboto Mono', monospace!important;
 }
 
 ::-webkit-scrollbar
@@ -20,7 +16,7 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-    color: #000000;
+    color: #004682;
 }
 
 textarea {

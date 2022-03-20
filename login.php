@@ -69,7 +69,7 @@
                     <li class="nav-item">
                         <a class="nav-label" href="#">
                             <img src="assets/images/icon.png" width="22" height="22" alt="">
-                            <span class="title">EENHEID Fortis </span>
+                            <span class="title">EENHEID RANDSTAD </span>
                             <span class="title">Log in om verder te gaan..</span>
                         </a>
                     </li>
