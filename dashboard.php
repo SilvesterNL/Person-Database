@@ -49,7 +49,7 @@
       <span class="shrink-btn">
         <i class='bx bx-chevron-left'></i>
       </span>
-      <img src="https://www.vvhelpman.nl/wp-content/uploads/2017/10/Politie-logo-269952DA5A-seeklogo.com_.png" class="logo" alt="">
+      <img src="./assets/images/icon.png" class="logo" alt="">
       <h3 class="hide">Politie Formato</h3>
     </div>
 

@@ -82,8 +82,8 @@ main .copyright span {
 }
 
 .sidebar-top .logo {
-  width: 2.1rem;
-  margin: 0 0.8rem;
+  width: 61px;
+  margin: 0 -0.1999999999999993rem;
 }
 
 .sidebar-top h3 {
@@ -248,7 +248,7 @@ nav:hover .shrink-btn,
 }
 
 .account:hover {
-  color: rgb(68, 68, 68);
+  color: rgb(255, 255, 255);
 }
 
 .admin-user {
@@ -315,7 +315,7 @@ nav:hover .shrink-btn,
   position: absolute;
   right: -1.2rem;
   top: 0;
-  color: black!important;
+  color: rgb(255, 255, 255)!important;
   transform: translateX(100%) translateY(-50%);
   padding: 0 0.8rem;
   font-size: 0.85rem;
@@ -342,7 +342,7 @@ nav:hover .shrink-btn,
 
 .tooltip span.show {
   opacity: 1;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 
 .tooltip-element:hover ~ .tooltip {
