@@ -8,6 +8,7 @@
 body {
     font-family: 'Poppins', sans-serif!important;
     animation-name: loading;
+    margin: 0;
     animation-duration: 0.4s;
 }
 
@@ -115,6 +116,7 @@ textarea {
 .content-introduction {
     padding: 3rem 1.5rem;
     text-align: center;
+    margin-left: -153px;
 }
 
 .content-introduction h3 {
@@ -127,7 +129,7 @@ textarea {
 
 .dashboard-container {
     width: 80%;
-    margin: auto;
+    margin-left: 115px;
 }
 
 .users-container {

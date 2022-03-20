@@ -49,85 +49,87 @@
       <span class="shrink-btn">
         <i class='bx bx-chevron-left'></i>
       </span>
-      <img src="./assets/images/logo.png" class="logo" alt="">
-      <h3 class="hide">Aqumex</h3>
+      <img src="https://www.vvhelpman.nl/wp-content/uploads/2017/10/Politie-logo-269952DA5A-seeklogo.com_.png" class="logo" alt="">
+      <h3 class="hide">Politie Formato</h3>
     </div>
 
     <div class="search">
       <i class='bx bx-search'></i>
-      <input type="text" class="hide" placeholder="Quick Search ...">
+      <input type="text" class="hide" placeholder="Zoek Personen">
     </div>
 
     <div class="sidebar-links">
       <ul>
         <div class="active-tab"></div>
         <li class="tooltip-element" data-tooltip="0">
-          <a href="#" class="active" data-active="0">
+          <a href="dashboard" class="active" data-active="0">
             <div class="icon">
-              <i class='bx bx-tachometer'></i>
-              <i class='bx bxs-tachometer'></i>
+              <i class='bx bx-home'></i>
+              <i class='bx bx-home'></i>
             </div>
             <span class="link hide">Dashboard</span>
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="1">
-          <a href="#" data-active="1">
+          <a href="profiles" data-active="1">
             <div class="icon">
-              <i class='bx bx-folder'></i>
-              <i class='bx bxs-folder'></i>
+              <i class='bx bx-male'></i>
+              <i class='bx bx-male'></i>
             </div>
-            <span class="link hide">Projects</span>
+            <span class="link hide">Personen</span>
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="2">
-          <a href="#" data-active="2">
+          <a href="reports" data-active="2">
             <div class="icon">
               <i class='bx bx-message-square-detail'></i>
               <i class='bx bxs-message-square-detail'></i>
             </div>
-            <span class="link hide">Messages</span>
+            <span class="link hide">Rapportages</span>
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="3">
-          <a href="#" data-active="3">
+          <a href="warrants" data-active="3">
             <div class="icon">
-              <i class='bx bx-bar-chart-square'></i>
-              <i class='bx bxs-bar-chart-square'></i>
+              <i class='bx bx-target-lock'></i>
+              <i class='bx bx-target-lock'></i>
             </div>
-            <span class="link hide">Analytics</span>
+            <span class="link hide">Arrestatiebevelen</span>
           </a>
         </li>
         <div class="tooltip">
           <span class="show">Dashboard</span>
-          <span>Projects</span>
-          <span>Messages</span>
-          <span>Analytics</span>
+          <span>Personen</span>
+          <span>Rapportages</span>
+          <span>Arrestatiebevelen</span>
         </div>
       </ul>
-
-      <h4 class="hide">Shortcuts</h4>
-
+      
+      
+      
+      <?php if ($_SESSION["rank"] == "Leiding") { ?>
+      <h4 class="hide">Leiding</h4>
       <ul>
         <li class="tooltip-element" data-tooltip="0">
-          <a href="#" data-active="4">
+          <a href="users" data-active="4">
             <div class="icon">
-              <i class='bx bx-notepad'></i>
-              <i class='bx bxs-notepad'></i>
+              <i class='bx bx-male'></i>
+              <i class='bx bx-male'></i>
             </div>
-            <span class="link hide">Tasks</span>
+            <span class="link hide">Gebruikers</span>
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="1">
-          <a href="#" data-active="5">
+          <a href="laws" data-active="5">
             <div class="icon">
-              <i class='bx bx-help-circle'></i>
-              <i class='bx bxs-help-circle'></i>
+              <i class='bx bx-folder'></i>
+              <i class='bx bx-folder'></i>
             </div>
-            <span class="link hide">Help</span>
+            <span class="link hide">Straffen</span>
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="2">
-          <a href="#" data-active="6">
+          <a href="settings" data-active="6">
             <div class="icon">
               <i class='bx bx-cog'></i>
               <i class='bx bxs-cog'></i>
@@ -136,12 +138,16 @@
           </a>
         </li>
         <div class="tooltip">
-          <span class="show">Tasks</span>
-          <span>Help</span>
+          <span class="show">Gebruikers</span>
+          <span>Straffen</span>
           <span>Settings</span>
         </div>
       </ul>
     </div>
+    <?php } ?>
+
+
+
 
     <div class="sidebar-footer">
       <a href="#" class="account tooltip-element" data-tooltip="0">
@@ -149,18 +155,18 @@
       </a>
       <div class="admin-user tooltip-element" data-tooltip="1">
         <div class="admin-profile hide">
-          <img src="./assets/images/face-1.png" alt="">
+          <img src="<?php echo $_SESSION["profilepic"]; ?>" alt="">
           <div class="admin-info">
-            <h3>John Doe</h3>
-            <h5>Admin</h5>
+            <h3><?php echo $firstname . " " . substr($lastname, 0, 1); ?>.</h3>
+            <h5><?php echo $_SESSION["rank"]; ?></h5>
           </div>
         </div>
-        <a href="#" class="log-out">
+        <a href="logout" class="log-out">
           <i class='bx bx-log-out'></i>
         </a>
       </div>
       <div class="tooltip">
-        <span class="show">John Doe</span>
+        <span class="show"><?php echo $firstname . " " . substr($lastname, 0, 1); ?>.</span>
         <span>Logout</span>
       </div>
     </div>

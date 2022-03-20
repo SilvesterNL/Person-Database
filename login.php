@@ -17,6 +17,7 @@
                 $_SESSION['role'] = $row['role'];
                 $_SESSION['name'] = $row['name'];
                 $_SESSION['rank'] = $row['rank'];
+                $_SESSION['profilepic'] = $row['profilepic'];
                 $_SESSION['id'] = $row['id'];
                 $_SESSION["personid"] = NULL;
                 $_SESSION["reportid"] = NULL;

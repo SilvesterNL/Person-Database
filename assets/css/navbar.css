@@ -7,10 +7,10 @@
 }
 
 :root {
-  --main-color: #3d5af1;
-  --main-color-dark: #3651d4;
-  --main-color-light: #5872f5;
-  --text-color: #cfcde7;
+  --main-color: #ffffff;
+  --main-color-dark: #2f2f2f;
+  --main-color-light: #464646;
+  --text-color: #000000;
 }
 
 body {
@@ -97,7 +97,7 @@ main .copyright span {
   top: 50%;
   height: 27px;
   padding: 0 0.3rem;
-  background-color: var(--main-color);
+  background-color: #2f2f2f;
   border-radius: 6px;
   cursor: pointer;
   box-shadow: 0 3px 10px -3px rgba(70, 46, 118, 0.3);
@@ -126,7 +126,7 @@ nav:hover .shrink-btn,
 
 .search {
   min-height: 2.7rem;
-  background-color: var(--main-color-light);
+  background-color: #2f2f2f;
   margin: 2rem 0.5rem 1.7rem;
   display: grid;
   grid-template-columns: 2.7rem 1fr;
@@ -147,7 +147,7 @@ nav:hover .shrink-btn,
 }
 
 .search input::placeholder {
-  color: var(--text-color);
+  color: #fff;
 }
 
 .sidebar-links ul {
@@ -230,8 +230,8 @@ nav:hover .shrink-btn,
 }
 
 .sidebar-footer {
-  position: relative;
-  margin-top: auto;
+  position: absolute;
+  top: 803px;
 }
 
 .account {
@@ -248,7 +248,7 @@ nav:hover .shrink-btn,
 }
 
 .account:hover {
-  color: #fff;
+  color: rgb(68, 68, 68);
 }
 
 .admin-user {
@@ -267,13 +267,14 @@ nav:hover .shrink-btn,
 }
 
 .admin-user img {
-  width: 2.9rem;
-  border-radius: 50%;
+  width: 3.4rem;
+  border-radius: 15px;
   margin: 0 0.4rem;
 }
 
 .admin-info {
   padding-left: 0.3rem;
+  margin-top: 11px;
 }
 
 .admin-info h3 {
@@ -302,6 +303,7 @@ nav:hover .shrink-btn,
   border-radius: 10px;
   margin: 0 0.65rem;
   transition: color 0.3s;
+  color: #fff;
 }
 
 .log-out:hover {
@@ -309,10 +311,11 @@ nav:hover .shrink-btn,
 }
 
 .tooltip {
-  background-color: var(--main-color);
+  background-color: var(--main-color-dark);
   position: absolute;
   right: -1.2rem;
   top: 0;
+  color: black!important;
   transform: translateX(100%) translateY(-50%);
   padding: 0 0.8rem;
   font-size: 0.85rem;
@@ -339,6 +342,7 @@ nav:hover .shrink-btn,
 
 .tooltip span.show {
   opacity: 1;
+  color: black;
 }
 
 .tooltip-element:hover ~ .tooltip {
