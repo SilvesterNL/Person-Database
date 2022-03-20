@@ -63,15 +63,15 @@
         <div class="iocn-link">
           <a href="#">
             <i class='bx bx-collection' ></i>
-            <span class="link_name">Personen</span>
+            <span class="link_name">Opzoeken</span>
           </a>
           <i class='bx bxs-chevron-down arrow' ></i>
         </div>
         <ul class="sub-menu">
-          <li><a class="link_name" href="#">Dashboard</a></li>
-          <li><a href="#">HTML & CSS</a></li>
-          <li><a href="#">JavaScript</a></li>
-          <li><a href="#">PHP & MySQL</a></li>
+          <li><a class="link_name" href="#">Opzoeken</a></li>
+          <li><a href="reports">Rapporten</a></li>
+          <li><a href="">Bewijsmateriaal</a></li>
+          <li><a href="warrants">Arrestatiebevel</a></li>
         </ul>
       </li>
       <li>
@@ -158,7 +158,7 @@
         <div class="profile_name">Silvester Vos</div>
         <div class="job">Beste Agent</div>
       </div>
-      <i href="logout.php" class='bx bx-log-out'></i>
+      <i href="logout" class='bx bx-log-out'></i>
     </div>
   </li>
 </ul>

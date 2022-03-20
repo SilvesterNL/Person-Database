@@ -17,5 +17,14 @@ sidebarBtn.addEventListener("click", ()=>{
 
 sidebar.classList.toggle("close");
 
+<<<<<<< Updated upstream
 
 console.log("Het menu is ingeladen");
+=======
+let logout = document.querySelector(".bx-log-out");
+logout.addEventListener("click", ()=>{
+    document.location.href = "logout.php";
+    console.log("Log out knop is ook geladen")
+});
+
+>>>>>>> Stashed changes
