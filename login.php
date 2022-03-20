@@ -61,26 +61,11 @@
         <link href="assets/css/login.css" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-custom bg-custom">
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-
-                <!-- Left menu -->
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-label" href="#">
-                            <img src="assets/images/icon.png" width="22" height="22" alt="">
-                            <span class="title">EENHEID RANDSTAD </span>
-                            <span class="title">Log in om verder te gaan..</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
 
         <main role="main" class="container">
             <div class="login-container">
                 <div class="login-content">
-                    <h4><strong>Meos Inloggen</strong></h4>
+                    <h4 class="h4groot"><strong>Meos Inloggen</strong></h4>
                     <hr>
                     <?php if (isset($_GET['error'])) { ?>
                     <p style="color:#9f1010;">Verkeerde inlog gegevens!</p>

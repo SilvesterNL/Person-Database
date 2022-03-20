@@ -1,8 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@keyframes loading {
+    from {transform: scale(0.9);}
+    to {transform: scale(0.9.9);}
+  }
 
 body {
-    padding-top: 5rem;
-    font-family: 'Roboto Mono', monospace!important;
+    font-family: 'Poppins', sans-serif!important;
+    animation-name: loading;
+    animation-duration: 0.4s;
 }
 
 ::-webkit-scrollbar
@@ -12,11 +18,11 @@ body {
 
 ::-webkit-scrollbar-thumb
 {
-	background-color: #004682;
+	background-color: #252525;
 }
 
 h1, h2, h3, h4, h5 {
-    color: #004682;
+    color: #252525;
 }
 
 textarea {
@@ -26,7 +32,7 @@ textarea {
 }
 
 .bg-custom {
-    background: #004682;
+    background: #252525;
 }
 
 .navbar-custom {
@@ -78,7 +84,7 @@ textarea {
 }
 
 .navbar-custom .nav-link-report:hover {
-    color: #015ba8!important;
+    color: #252525!important;
 }
 
 .navbar-nav .nav-link, .navbar-nav .nav-link-report, .navbar-nav .nav-label {
@@ -86,7 +92,7 @@ textarea {
 }
 
 .dropdown-menu {
-    background: #004682!important;
+    background: #252525!important;
     border-radius: 0!important;
     padding:0!important;
 }
@@ -153,7 +159,7 @@ textarea {
 
 .panel-item {
     padding: 1vh 1vw;
-    background: #004682;
+    background: #252525;
     color: #ffffff!important;
     border-radius: 5px;
     margin-bottom: 1vh;
@@ -202,26 +208,26 @@ textarea {
 
 .btn-police {
     width: 100%;
-    background: #004682!important;
+    background: #252525!important;
     border: 0 solid transparent!important;
     transition: background 500ms;
 }
 
 .btn-police:hover {
     width: 100%;
-    background: #0066bd!important;
+    background: #252525!important;
     border: 0 solid transparent!important;
 }
 
 .btn-pol {
     color: #ffffff!important;
-    background: #004682!important;
+    background: #252525!important;
     border: 0 solid transparent!important;
     transition: background 500ms;
 }
 
 .btn-pol:hover {
-    background: #0066bd!important;
+    background: #252525!important;
     border: 0 solid transparent!important;
 }
 
@@ -241,7 +247,7 @@ textarea {
 }
 
 .added-laws {
-    border: 1px solid #004682;
+    border: 1px solid #252525;
     height: 70vh;
     max-height: 50vh;
     overflow: auto;
@@ -250,17 +256,17 @@ textarea {
 
 .report-law-item {
     padding: 1vh 1vw;
-    background: #004682;
+    background: #252525;
     color: #ffffff!important;
     transition: background 500ms;
     float: right;
     width:100%;
-    border: 1px solid #015ba8;
+    border: 1px solid #252525;
 }
 
 .report-law-item:hover {
     cursor: pointer;
-    background: #0066bd;
+    background: #252525;
 }
 
 .report-law-item .lawlist-title {
@@ -283,18 +289,18 @@ textarea {
 
 .report-law-item-tab {
     padding: 1vh 1vw;
-    background: #004682;
+    background: #252525;
     color: #ffffff!important;
     transition: background 500ms;
     width: 25%;
     height: 100px;
     float: left;
-    border: 1px solid #015ba8;
+    border: 1px solid #252525;
 }
 
 .report-law-item-tab:hover {
     cursor: pointer;
-    background: #0066bd;
+    background: #252525;
 }
 
 .report-law-item-tab .lawlist-title {
@@ -322,7 +328,7 @@ textarea {
 .report-show {
     margin-top: 4vh;
     padding: 10px 20px;
-    border: 1px solid #004682;
+    border: 1px solid #252525;
 }
 
 .laws-added {
@@ -354,7 +360,7 @@ textarea {
 
 .warrant-item {
     padding: 1vh 1vw;
-    background: #004682;
+    background: #252525;
     color: #ffffff!important;
     border-radius: 2px;
     margin-bottom: 1vh;
@@ -364,7 +370,7 @@ textarea {
 
 .warrant-item:hover {
     cursor: pointer;
-    background: #0066bd;
+    background: #252525;
 }
 
 .warrant-list a {
