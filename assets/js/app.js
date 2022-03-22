@@ -23,6 +23,24 @@ search.addEventListener("click", () => {
   search.lastElementChild.focus();
 });
 
+window.addEventListener('load', (event) => {
+  if (window.matchMedia("(min-width: 1635px)").matches) {
+    document.body.classList.remove("shrink");
+  } else {
+    document.body.classList.add("shrink");
+  }
+});
+
+
+window.addEventListener('resize', function(event) {
+  if (window.matchMedia("(min-width: 1635px)").matches) {
+    document.body.classList.remove("shrink");
+  } else {
+    document.body.classList.add("shrink");
+  }
+}, true);
+
+
 function moveActiveTab() {
   let topPosition = activeIndex * 58 + 2.5;
 

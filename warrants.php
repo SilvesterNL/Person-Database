@@ -23,7 +23,7 @@
     $result = $con->query("SELECT * FROM warrants ORDER BY created DESC");
     $warrant_array = [];
     while ($data = $result->fetch_assoc()) { 
-        $profile = $con->query("SELECT * FROM profiles WHERE citizenid = '".$con->real_escape_string($data["citizenid"])."'");
+        $profile = $con->query("SELECT * FROM profiles WHERE citizenid = '".$con->real_escape_string($selectedwarrant["citizenid"])."'");
         $profiledata = $profile->fetch_assoc();
         $data["fullname"] = $profiledata["fullname"];
         $warrant_array[] = $data;
@@ -147,7 +147,7 @@
                     <?php if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["type"] == "show") { ?>
                         <div class="report-show">
                             <h4 class="report-title"><?php echo $selectedwarrant["title"]; ?></h4>
-                            <p>Betfreft: <?php echo $profiledata["fullname"]; ?> (<?php echo $profiledata["citizenid"]; ?>)</p>
+                            <p>Betfreft: <?php echo $profiledata["fullname"]; ?> (<?php echo $selectedwarrant["citizenid"]; ?>)</p>
                             <hr>
                             <strong>Omschrijving:</strong>
                             <p class="report-description"><?php echo $selectedwarrant["description"]; ?></p>

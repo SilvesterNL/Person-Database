@@ -15,7 +15,6 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  overflow-x: hidden;
   background-color: #ffffff;
   display: flex;
   position: relative;
@@ -98,7 +97,7 @@ main .copyright span {
   top: 50%;
   height: 27px;
   padding: 0 0.3rem;
-  background-color: #2f2f2f;
+  background-color: #ffffff;
   border-radius: 6px;
   cursor: pointer;
   box-shadow: 0 3px 10px -3px rgba(70, 46, 118, 0.3);
@@ -233,7 +232,7 @@ nav:hover .shrink-btn,
 
 .sidebar-footer {
   position: absolute;
-  top: 803px;
+  bottom: 30px;
 }
 
 .account {
@@ -357,6 +356,18 @@ nav:hover .shrink-btn,
 .hide {
   transition: opacity 0.3s 0.2s;
 }
+
+body.shrink div.content-introduction {
+  margin-left: 32px!important;
+  transition: 0.3s;
+}
+
+body.shrink div.dashboard-container {
+  margin-left: 121px!important;
+  transition: 0.3s;
+}
+
+
 
 body.shrink nav {
   width: 5.4rem;

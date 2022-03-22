@@ -14,20 +14,27 @@
         }elseif ($_POST['type'] == "show" || isset($_SESSION["personid"]) && $_SESSION["personid"] != NULL) {
             if (isset($_SESSION["personid"]) && $_SESSION["personid"] != NULL) {
                 $personId = $_SESSION["personid"];
+                $citizenid = $_SESSION["citizenid"];
             } else {
                 $personId = $_POST['personid'];
+                $citizenid = $_SESSION["citizenid"];
             }
             $query = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($personId));
             $selectedprofile = $query->fetch_assoc();
+            
             $result = $con->query("SELECT * FROM reports WHERE profileid = ".$con->real_escape_string($personId)." ORDER BY created DESC");
             $update = $con->query("UPDATE profiles SET lastsearch = ".time()." WHERE id = ".$personId);
             $reports_array = [];
             while ($data = $result->fetch_assoc()) { 
                 $reports_array[] = $data;
             }
+            
             $_SESSION["personid"] = NULL;
         }
     }
+
+    
+
     $name = explode(" ", $_SESSION["name"]);
     $firstname = $name[0];
     $last_word_start = strrpos($_SESSION["name"], ' ') + 1;
@@ -49,6 +56,7 @@
         <title>Politie Databank</title>
 
         <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -56,61 +64,150 @@
         <!-- Custom styles for this template -->
         <link href="assets/css/main.css" rel="stylesheet">
         <link href="assets/css/profiles.css" rel="stylesheet">
+        <link href="assets/css/navbar.css" rel="stylesheet">
     </head>
     <body>
-    <nav class="navbar navbar-expand-lg fixed-top navbar-custom bg-custom">
-        <a class="nav-label" href="#">
-            <img src="assets/images/icon.png" width="22" height="22" alt="">
-            <span class="title">
-                               Welkom <?php echo $_SESSION["rank"] . " " . $firstname . " " . substr($lastname, 0, 1); ?>.
-                            </span>
-        </a>
-        <a class="nav-button" href="logout">
-            <button class="btn btn-outline-light btn-logout my-2 my-sm-0" type="button">LOG UIT</button>
-        </a>
+    
 
-        <div class="navbar-dark">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
+    <nav>
+    <div class="sidebar-top">
+      <span class="shrink-btn">
+        <i class='bx bx-chevron-left'></i>
+      </span>
+      <img src="./assets/images/icon.png" class="logo" alt="">
+      <h3 class="hide">Politie Fomato</h3>
+    </div>
 
+    <div class="search">
+      <i class='bx bx-search'></i>
+      <form method="post">
+      <input type="hidden" name="type" value="search">
+      <input name="search" type="text" class="hide" placeholder="Zoek Personen">
+  </form>
+    </div>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="dashboard">DASHBOARD</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        OPZOEKEN
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="profiles">PERSONEN</a>
-                        <a class="dropdown-item" href="reports">REPORTS</a>
-                        <!-- <a class="dropdown-item" href="#">VOERTUIGEN</a> -->
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="warrants">ARRESTATIEBEVELEN</a>
-                </li>
-                <?php if ($_SESSION["role"] == "admin") { ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ADMIN
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="laws">STRAFFEN</a>
-                            <a class="dropdown-item" href="users">GEBRUIKERS</a>
+    <!-- <form method="post" class="form-inline ml-auto">
+                        <input type="hidden" name="type" value="search">
+                        <div class="md-form my-0">
+                            <input class="form-control" name="search" type="text" placeholder="Zoek een persoon.." aria-label="Search">
                         </div>
-                    </li>
-                <?php } ?>
-                <li class="nav-item">
-                    <a class="nav-link-report" href="createreport">NIEUW RAPPORT</a>
-                </li>
-            </ul>
+                        <button type="submit" name="issabutn" class="btn btn-pol btn-md my-0 ml-sm-2">ZOEK</button>
+                    </form> -->
+
+
+    <div class="sidebar-links">
+      <ul>
+        <div style="top: 58.5px!important;" class="active-tab"></div>
+        <li class="tooltip-element" data-tooltip="0">
+          <a href="dashboard"  data-active="0">
+            <div class="icon">
+              <i class='bx bx-home'></i>
+              <i class='bx bx-home'></i>
+            </div>
+            <span class="link hide">Dashboard</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="1">
+          <a href="profiles" class="active" data-active="1">
+            <div class="icon">
+              <i class='bx bx-male'></i>
+              <i class='bx bx-male'></i>
+            </div>
+            <span class="link hide">Personen</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="2">
+          <a href="reports" data-active="2">
+            <div class="icon">
+              <i class='bx bx-message-square-detail'></i>
+              <i class='bx bxs-message-square-detail'></i>
+            </div>
+            <span class="link hide">Rapportages</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="3">
+          <a href="warrants" data-active="3">
+            <div class="icon">
+              <i class='bx bx-target-lock'></i>
+              <i class='bx bx-target-lock'></i>
+            </div>
+            <span class="link hide">Arrestatiebevelen</span>
+          </a>
+        </li>
+        <div class="tooltip">
+          <span class="show">Dashboard</span>
+          <span>Personen</span>
+          <span>Rapportages</span>
+          <span>Arrestatiebevelen</span>
         </div>
-    </nav>
+      </ul>
+      
+      
+      
+      <?php if ($_SESSION["rank"] == "Leiding") { ?>
+      <h4 class="hide">Leiding</h4>
+      <ul>
+        <li class="tooltip-element" data-tooltip="0">
+          <a href="users" data-active="4">
+            <div class="icon">
+              <i class='bx bx-male'></i>
+              <i class='bx bx-male'></i>
+            </div>
+            <span class="link hide">Gebruikers</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="1">
+          <a href="laws" data-active="5">
+            <div class="icon">
+              <i class='bx bx-folder'></i>
+              <i class='bx bx-folder'></i>
+            </div>
+            <span class="link hide">Straffen</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="2">
+          <a href="settings" data-active="6">
+            <div class="icon">
+              <i class='bx bx-cog'></i>
+              <i class='bx bxs-cog'></i>
+            </div>
+            <span class="link hide">Settings</span>
+          </a>
+        </li>
+        <div class="tooltip">
+          <span class="show">Gebruikers</span>
+          <span>Straffen</span>
+          <span>Settings</span>
+        </div>
+      </ul>
+    </div>
+    <?php } ?>
+
+
+
+
+    <div class="sidebar-footer">
+      <a href="#" class="account tooltip-element" data-tooltip="0">
+        <i class='bx bx-user'></i>
+      </a>
+      <div class="admin-user tooltip-element" data-tooltip="1">
+        <div class="admin-profile hide">
+          <img src="<?php echo $_SESSION["profilepic"]; ?>" alt="">
+          <div class="admin-info">
+            <h3><?php echo $firstname . " " . substr($lastname, 0, 1); ?>.</h3>
+            <h5><?php echo $_SESSION["rank"]; ?></h5>
+          </div>
+        </div>
+        <a href="logout" class="log-out">
+          <i class='bx bx-log-out'></i>
+        </a>
+      </div>
+      <div class="tooltip">
+        <span class="show"><?php echo $firstname . " " . substr($lastname, 0, 1); ?>.</span>
+        <span>Logout</span>
+      </div>
+    </div>
+  </nav>
 
         <main role="main" class="container">
             <div class="content-introduction">
@@ -148,7 +245,8 @@
                                     <form method="post">
                                         <input type="hidden" name="type" value="show">
                                         <input type="hidden" name="personid" value="<?php echo $person['id']; ?>">
-                                        <button type="submit" class="btn btn-panel panel-item">
+                                        <input type="hidden" name="citizenid" value="<?php echo $person['citizenid']; ?>">
+                                        <button type="submit" class="recpers btn btn-panel panel-item">
                                             <h5 class="panel-title"><?php echo $person['fullname']; ?></h5>
                                             <p class="panel-author">BSN: <?php echo $person['citizenid']; ?></p>
                                         </button>
@@ -164,11 +262,34 @@
                             <img src="<?php echo $selectedprofile["avatar"]; ?>" alt="profile-pic" width="150" height="150" />
                         </div>
                         <div class="profile-information">
+                        <?php $_SESSION["citizenid"] = $selectedprofile['citizenid']; ?>
+                        <?php $warrant = $con->query("SELECT * FROM warrants WHERE citizenid = '".$_SESSION['citizenid']."' ORDER BY id");
+                        while ($data1 = $warrant->fetch_assoc()) { 
+                            $warrant_array[] = $data1;
+                        }
+                        ?>
                             <p><strong>Naam:</strong><br /><?php echo $selectedprofile["fullname"]; ?></p>
                             <p><strong>BSN:</strong><br /><?php echo $selectedprofile["citizenid"]; ?></p>
                             <p><strong>Vinger Patroon:</strong><br /><?php echo $selectedprofile["fingerprint"]; ?></p>
                             <p><strong>DNA Code:</strong><br /><?php echo $selectedprofile["dnacode"]; ?></p>
                             <p><strong>Notitie:</strong><br /><?php echo $selectedprofile["note"]; ?></p>
+                            
+                            <strong>Arrestatiebevelen:</strong>
+                            <?php if (empty($warrant_array)) { ?>
+                                    <p>Geen arrestatiebevelen gevonden</p>
+                                <?php } else { ?>
+                                    <?php foreach($warrant_array as $warrant) {?>
+                                        
+                                        <form method="post" action="warrants">
+                                            <input type="hidden" name="type" value="show">
+                                            <input type="hidden" name="warrantid" value="<?php echo $warrant['id']; ?>">
+                                            <button type="submit" class="arrestatiedanger panel-item">
+                                                <h5 class="panel-title"><?php echo $warrant['title']; ?></h5>
+                                                <p class="panel-author">door: <?php echo $warrant['author']; ?></p>
+                                            </button>
+                                        </form>
+                                    <?php }?>
+                                <?php } ?>
                         </div>
                     </div>
                     <div class="profile-reports-panel">
@@ -214,5 +335,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="assets/js/main.js"></script>
+        <script src="assets/js/app.js"></script>
     </body>
 </html>
