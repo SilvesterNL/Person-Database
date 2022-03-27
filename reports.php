@@ -75,21 +75,10 @@
       <h3 class="hide">Politie Fomato</h3>
     </div>
 
-    <div class="search">
-      <i class='bx bx-search'></i>
-      <form method="post">
-      <input type="hidden" name="type" value="search">
-      <input name="search" type="text" class="hide" placeholder="Zoek Personen">
-  </form>
-    </div>
+    
 
-    <!-- <form method="post" class="form-inline ml-auto">
-                        <input type="hidden" name="type" value="search">
-                        <div class="md-form my-0">
-                            <input class="form-control" name="search" type="text" placeholder="Zoek een persoon.." aria-label="Search">
-                        </div>
-                        <button type="submit" name="issabutn" class="btn btn-pol btn-md my-0 ml-sm-2">ZOEK</button>
-                    </form> -->
+    <div class="searchother">
+    </div>
 
 
     <div class="sidebar-links">
@@ -141,7 +130,7 @@
       
       
       
-      <?php if ($_SESSION["rank"] == "Leiding") { ?>
+      <?php if ($_SESSION["role"] == "admin") { ?>
       <h4 class="hide">Leiding</h4>
       <ul>
         <li class="tooltip-element" data-tooltip="0">

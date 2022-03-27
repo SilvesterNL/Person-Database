@@ -1,29 +1,46 @@
 <?php
-    require "requires/config.php";
+    require "config.php";
     if (!$_SESSION['loggedin']) {
         Header("Location: login");
     }
-    $result = $con->query("SELECT * FROM laws ORDER BY months ASC");
-    $laws_array = [];
-    while ($data = $result->fetch_assoc()) { 
-        $laws_array[] = $data;
+    $profiles = $con->query("SELECT * FROM profiles ORDER BY lastsearch DESC LIMIT 6");
+    $recentsearch_array = [];
+    while ($data = $profiles->fetch_assoc()) { 
+        $recentsearch_array[] = $data;
     }
-    $respone = false;
+    $reports = $con->query("SELECT * FROM reports ORDER BY created DESC LIMIT 6");
+    $recentreports_array = [];
+    while ($data = $reports->fetch_assoc()) { 
+        $recentreports_array[] = $data;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        if ($_POST['type'] == "create") {
-            $query = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($_POST["profileid"]));
-            $selectedprofile = $query->fetch_assoc();
-        } elseif ($_POST['type'] == "createreal") {
-            $description = nl2br($_POST["description"]);
-            $insert = $con->query("INSERT INTO warrants (citizenid,description,title,naam,author) VALUES('".$con->real_escape_string($_POST['citizenid'])."','".$con->real_escape_string($description)."','".$con->real_escape_string($_POST['title'])."','".$con->real_escape_string($_POST['name'])."','".$con->real_escape_string($_POST['author'])."')");
-            if ($insert) {
-                $last_id = $con->insert_id;
-                //$_SESSION["reportid"] = $last_id;
-                $respone = true;
-                header('Location: warrants');
-            }
+      if ($_POST['type'] == "search") {
+        $result = $con->query("SELECT * FROM profiles WHERE concat(' ', fullname, ' ') LIKE '%".$con->real_escape_string($_POST['search'])."%' OR citizenid = '".$con->real_escape_string($_POST['search'])."' OR dnacode = '".$con->real_escape_string($_POST['search'])."' OR fingerprint = '".$con->real_escape_string($_POST['search'])."'");
+        $search_array = [];
+        while ($data = $result->fetch_assoc()) { 
+            $search_array[] = $data;
         }
-    }
+      }elseif ($_POST['type'] == "show" || isset($_SESSION["personid"]) && $_SESSION["personid"] != NULL) {
+          if (isset($_SESSION["personid"]) && $_SESSION["personid"] != NULL) {
+              $personId = $_SESSION["personid"];
+              $citizenid = $_SESSION["citizenid"];
+          } else {
+              $personId = $_POST['personid'];
+              $citizenid = $_SESSION["citizenid"];
+          }
+          $query = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($personId));
+          $selectedprofile = $query->fetch_assoc();
+          $result = $con->query("SELECT * FROM reports WHERE profileid = ".$con->real_escape_string($personId)." ORDER BY created DESC");
+          $update = $con->query("UPDATE profiles SET lastsearch = ".time()." WHERE id = ".$personId);
+          $reports_array = [];
+          while ($data = $result->fetch_assoc()) { 
+              $reports_array[] = $data;
+          }
+          $_SESSION["personid"] = NULL;
+      }
+  }
+
     $name = explode(" ", $_SESSION["name"]);
     $firstname = $name[0];
     $last_word_start = strrpos($_SESSION["name"], ' ') + 1;
@@ -34,7 +51,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=3, shrink-to-fit=yes">
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="shortcut icon" href="https://www.politie.nl/politie2018/assets/images/icons/favicon.ico" type="image/x-icon" />
@@ -51,31 +68,27 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
         <!-- Custom styles for this template -->
-        <link href="assets/css/main.css" rel="stylesheet">
-        <link href="assets/css/profiles.css" rel="stylesheet">
-        <link href="assets/css/laws.css" rel="stylesheet">
-        <link href="assets/css/navbar.css" rel="stylesheet">
+        <link href="../assets/css/main.css" rel="stylesheet">
+        <link href="../assets/css/navbar.css" rel="stylesheet">
     </head>
     <body>
-    
     <nav>
     <div class="sidebar-top">
       <span class="shrink-btn">
         <i class='bx bx-chevron-left'></i>
       </span>
-      <img src="./assets/images/icon.png" class="logo" alt="">
+      <img src="../assets/images/icon.png" class="logo" alt="">
       <h3 class="hide">Politie Fomato</h3>
     </div>
 
-    
-
-    <div class="searchother">
+    <div class="search">
     </div>
+
 
 
     <div class="sidebar-links">
       <ul>
-        <div style="top: 177.5px!important;" class="active-tab"></div>
+        <div style="top:233px;" class="active-tab"></div>
         <li class="tooltip-element" data-tooltip="0">
           <a href="dashboard"  data-active="0">
             <div class="icon">
@@ -104,12 +117,21 @@
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="3">
-          <a href="warrants" class="active" data-active="3">
+          <a href="warrants" data-active="3">
             <div class="icon">
               <i class='bx bx-target-lock'></i>
               <i class='bx bx-target-lock'></i>
             </div>
             <span class="link hide">Arrestatiebevelen</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="3">
+          <a href="archief" class="active" data-active="3">
+            <div class="icon">
+              <i class='bx bx-archive'></i>
+              <i class='bx bx-archive'></i>
+            </div>
+            <span class="link hide">Archief</span>
           </a>
         </li>
         <div class="tooltip">
@@ -189,31 +211,14 @@
 
         <main role="main" class="container">
             <div class="content-introduction">
-                <h3>Arrestatiebevelen</h3>
-                <p class="lead">Hier vind je alle arrestatiebevelen die zijn ingedeeld.<br/>Je kunt ook nieuwe arrestatiebevelen maken, deze mag je alleen aanmaken als je toestemming heb gekregen van de korpsleiding en/of HOVJ</p>
+                <h3>Archief</h3>
+                <p class="lead">Welkom in het grote politie archief!<br />Hier kan je alle informatie vinden die je nodig hebt tijdens of voor je dienst. 
+                <br />
+                <br />
+                </p>
             </div>
-            <div style="margin-left:174px;" class="createreport-container">
-                <div class="createreport-left">
-                    <?php if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['type'] == "create") { ?>
-                        <form method="post">
-                            <input type="hidden" name="type" value="createreal">
-                            <input type="hidden" name="name" value="<?php echo $selectedprofile["fullname"]; ?>">
-                            <input type="hidden" name="author" class="form-control login-pass" value="<?php echo $_SESSION["name"]; ?>" placeholder="" required>
-                            <div class="input-group mb-3">
-                                <input type="text" name="title" class="form-control login-user" value="" placeholder="titel" required>
-                            </div>
-                            <div class="input-group mb-3">
-                                <input type="text" name="citizenid" class="form-control login-user" value="<?php echo $selectedprofile["citizenid"]; ?>" placeholder="bsn" required>
-                            </div>
-                            <div class="input-group mb-2">
-                                <textarea name="description" class="form-control" value="" placeholder="omschrijving.." required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" name="create" class="btn btn-primary btn-police">Maak Bevel</button>
-                            </div>
-                        </form>
-                    <?php } ?>
-                </div>
+            <div class="dashboard-container">
+            <iframe style="padding:0;" width="1000px" height="800px" src="./pdf/CJIB-Werkwijze.pdf#toolbar=0"></iframe>
             </div>
         </main><!-- /.container -->
 
@@ -222,7 +227,7 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <script src="assets/js/main.js"></script>
-        <script src="assets/js/app.js"></script>
+        <script src="../assets/js/main.js"></script>
+        <script src="../assets/js/app.js"></script>
     </body>
 </html>

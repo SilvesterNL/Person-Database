@@ -3,32 +3,44 @@
     if (!$_SESSION['loggedin']) {
         Header("Location: login");
     }
-    $respone = false;
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        if ($_POST['type'] == "create") {
-            $note = nl2br($_POST["note"]);
-            $insert = $con->query("INSERT INTO profiles (citizenid,fullname,avatar,fingerprint,dnacode,note,lastsearch) VALUES('".$con->real_escape_string($_POST['citizenid'])."','".$con->real_escape_string($_POST['fullname'])."','".$con->real_escape_string($_POST['avatar'])."','".$con->real_escape_string($_POST['fingerprint'])."','".$con->real_escape_string($_POST['dnacode'])."','".$con->real_escape_string($note)."',".time().")");
-            if ($insert) {
-                $last_id = $con->insert_id;
-                $_SESSION["personid"] = $last_id;
-                $respone = true;
-                header('Location: profiles');
-            }
-        } elseif ($_POST['type'] == "edit") {
-            $query = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($_POST['profileid']));
-            $selectedprofile = $query->fetch_assoc();
-        } elseif ($_POST['type'] == "realedit") {
-            $note = nl2br($_POST["note"]);
-            $update = $con->query("UPDATE profiles SET citizenid = '".$con->real_escape_string($_POST['citizenid'])."', fullname = '".$con->real_escape_string($_POST['fullname'])."', avatar = '".$con->real_escape_string($_POST['avatar'])."', fingerprint = '".$con->real_escape_string($_POST['fingerprint'])."', dnacode = '".$con->real_escape_string($_POST['dnacode'])."', note = '".$con->real_escape_string($note)."' WHERE id = ".$_POST['profileid']);
-            if ($update) {
-                $_SESSION["personid"] = $_POST['profileid'];
-                $respone = true;
-                header('Location: profiles');
-            } else {
-                $response = false;
-            }
-        }
+    $profiles = $con->query("SELECT * FROM profiles ORDER BY lastsearch DESC LIMIT 6");
+    $recentsearch_array = [];
+    while ($data = $profiles->fetch_assoc()) { 
+        $recentsearch_array[] = $data;
     }
+    $reports = $con->query("SELECT * FROM reports ORDER BY created DESC LIMIT 6");
+    $recentreports_array = [];
+    while ($data = $reports->fetch_assoc()) { 
+        $recentreports_array[] = $data;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+      if ($_POST['type'] == "search") {
+        $result = $con->query("SELECT * FROM profiles WHERE concat(' ', fullname, ' ') LIKE '%".$con->real_escape_string($_POST['search'])."%' OR citizenid = '".$con->real_escape_string($_POST['search'])."' OR dnacode = '".$con->real_escape_string($_POST['search'])."' OR fingerprint = '".$con->real_escape_string($_POST['search'])."'");
+        $search_array = [];
+        while ($data = $result->fetch_assoc()) { 
+            $search_array[] = $data;
+        }
+      }elseif ($_POST['type'] == "show" || isset($_SESSION["personid"]) && $_SESSION["personid"] != NULL) {
+          if (isset($_SESSION["personid"]) && $_SESSION["personid"] != NULL) {
+              $personId = $_SESSION["personid"];
+              $citizenid = $_SESSION["citizenid"];
+          } else {
+              $personId = $_POST['personid'];
+              $citizenid = $_SESSION["citizenid"];
+          }
+          $query = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($personId));
+          $selectedprofile = $query->fetch_assoc();
+          $result = $con->query("SELECT * FROM reports WHERE profileid = ".$con->real_escape_string($personId)." ORDER BY created DESC");
+          $update = $con->query("UPDATE profiles SET lastsearch = ".time()." WHERE id = ".$personId);
+          $reports_array = [];
+          while ($data = $result->fetch_assoc()) { 
+              $reports_array[] = $data;
+          }
+          $_SESSION["personid"] = NULL;
+      }
+  }
+
     $name = explode(" ", $_SESSION["name"]);
     $firstname = $name[0];
     $last_word_start = strrpos($_SESSION["name"], ' ') + 1;
@@ -39,7 +51,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=3, shrink-to-fit=yes">
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="shortcut icon" href="https://www.politie.nl/politie2018/assets/images/icons/favicon.ico" type="image/x-icon" />
@@ -57,7 +69,6 @@
 
         <!-- Custom styles for this template -->
         <link href="assets/css/main.css" rel="stylesheet">
-        <link href="assets/css/profiles.css" rel="stylesheet">
         <link href="assets/css/navbar.css" rel="stylesheet">
     </head>
     <body>
@@ -70,15 +81,14 @@
       <h3 class="hide">Politie Fomato</h3>
     </div>
 
-    
-
-    <div class="searchother">
+    <div class="search">
     </div>
+
 
 
     <div class="sidebar-links">
       <ul>
-        <div style="top: 58.5px!important;" class="active-tab"></div>
+        <div style="top:233px;" class="active-tab"></div>
         <li class="tooltip-element" data-tooltip="0">
           <a href="dashboard"  data-active="0">
             <div class="icon">
@@ -89,7 +99,7 @@
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="1">
-          <a href="profiles" class="active" data-active="1">
+          <a href="profiles" data-active="1">
             <div class="icon">
               <i class='bx bx-male'></i>
               <i class='bx bx-male'></i>
@@ -113,6 +123,15 @@
               <i class='bx bx-target-lock'></i>
             </div>
             <span class="link hide">Arrestatiebevelen</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="3">
+          <a href="archief" class="active" data-active="3">
+            <div class="icon">
+              <i class='bx bx-archive'></i>
+              <i class='bx bx-archive'></i>
+            </div>
+            <span class="link hide">Archief</span>
           </a>
         </li>
         <div class="tooltip">
@@ -192,63 +211,52 @@
 
         <main role="main" class="container">
             <div class="content-introduction">
-                <h3>Profiel Maken</h3>
-                <p class="lead">Hier maak je een profiel aan als een nieuwe crimineel in wordt gebracht.<br />Zorg ervoor dat alle gegevens kloppen en dat er een juiste foto is geplaatst!</p>
+                <h3>Archief</h3>
+                <p class="lead">Welkom in het grote politie archief!<br />Hier kan je alle informatie vinden die je nodig hebt tijdens of voor je dienst. 
+                <br />
+                <br />
+                </p>
             </div>
-            <div class="createprofile-container">
-            <?php if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['type'] == "edit" && !empty($selectedprofile)) { ?>
-                <form method="post">
-                    <input type="hidden" name="type" value="realedit">
-                    <input type="hidden" name="profileid" value="<?php echo $selectedprofile["id"]; ?>">
-                    <div class="input-group mb-3">
-                        <input type="text" name="citizenid" class="form-control login-user" value="<?php echo $selectedprofile["citizenid"]; ?>" placeholder="Burger Service Nummer" required>
-                    </div>
-                    <div class="input-group mb-2">
-                        <input type="text" name="fullname" class="form-control login-pass" value="<?php echo $selectedprofile["fullname"]; ?>" placeholder="Volledige Naam" required>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="avatar" class="form-control login-user" value="<?php echo $selectedprofile["avatar"]; ?>" placeholder="Profiel Foto (imgur URL vb. https://i.imgur.com/zKDjdhe.png)" required>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="fingerprint" class="form-control login-user" value="<?php echo $selectedprofile["fingerprint"]; ?>" placeholder="Vingerpatroon">
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="dnacode" class="form-control login-user" value="<?php echo $selectedprofile["dnacode"]; ?>" placeholder="Dna Code">
-                    </div>
-                    <?php $notes = str_replace( "<br />", '', $selectedprofile["note"]); ?>
-                    <div class="input-group mb-2">
-                        <textarea name="note" class="form-control" value="<?php echo $notes; ?>" placeholder="notitie" required><?php echo $notes; ?></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" name="create" class="btn btn-primary btn-police">Pas Aan</button>
-                    </div>
-                </form>
-            <?php } else { ?>
-                <form method="post">
-                    <input type="hidden" name="type" value="create">
-                    <div class="input-group mb-3">
-                        <input type="text" name="citizenid" class="form-control login-user" value="" placeholder="Burger Service Nummer (Het moet een bestaand bsn zijn!)" required>
-                    </div>
-                    <div class="input-group mb-2">
-                        <input type="text" name="fullname" class="form-control login-pass" value="" placeholder="Volledige Naam" required>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="url" name="avatar" class="form-control login-user" value="" placeholder="Profiel Foto (imgur URL vb. https://i.imgur.com/zKDjdhe.png)" required>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="fingerprint" class="form-control login-user" value="" placeholder="Vingerpatroon">
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="dnacode" class="form-control login-user" value="" placeholder="Dna Code">
-                    </div>
-                    <div class="input-group mb-2">
-                        <textarea name="note" class="form-control" value="" placeholder="Notitie"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" name="create" class="btn btn-primary btn-police">Maak Rapport</button>
-                    </div>
-                </form>
-            <?php } ?>
+            <div class="dashboard-container1">
+                <!-- Left Container -->
+                <div class="left-panel-container">
+                <h6>Handouts/Examens:</h6>
+                <button style="width:222px;" onclick="window.location.href='./archief-files/basisinstructie'"class="recpers btn btn-panel panel-item">
+                  <p>Basistraining</p>
+                </button>
+                <button style="width:222px;" onclick="window.location.href='./archief-files/theorieassur'"class="recpers btn btn-panel panel-item">
+                  <p>Theorie Examen; Aspirant -> Surveillant</p>
+                </button>
+                <button style="width:222px;" onclick="window.location.href='./archief-files/theoriesuragent'"class="recpers btn btn-panel panel-item">
+                  <p>Theorie Examen; Surveillant -> Agent</p>
+                </button>
+                <br> 
+                <br> 
+                <h6>Handouts/Examens:</h6>
+
+                </div>  
+                <!-- Right Container -->
+                <div class="right-panel-container">
+                <h6>Informatie:</h6>
+                <button style="width:222px;" onclick="window.location.href='./archief-files/handboek'"class="recpers btn btn-panel panel-item">
+                  <p>Handboek</p>
+                </button>
+                <button style="width:222px;" onclick="window.location.href='./archief-files/cjib-werkwijze'"class="recpers btn btn-panel panel-item">
+                  <p>CJIB Werkwijze</p>
+                </button>
+                <button style="width:222px;" onclick="window.location.href='./archief-files/Dreiginsniveau'"class="recpers btn btn-panel panel-item">
+                  <p>Dreiginsniveau</p>
+                </button>
+                <button style="width:222px;" onclick="window.location.href='./archief-files/Kledingreglement'"class="recpers btn btn-panel panel-item">
+                  <p>Kledingsreglement</p>
+                </button>
+                <button style="width:222px;" onclick="window.location.href='./archief-files/Roepnummer'"class="recpers btn btn-panel panel-item">
+                  <p>Roepnummer</p>
+                </button>
+                <button style="width:222px;" onclick="window.location.href='./archief-files/Sleepdienst'"class="recpers btn btn-panel panel-item">
+                  <p>Sleepdienst Instructie</p>
+                </button>
+                </div> 
             </div>
         </main><!-- /.container -->
 

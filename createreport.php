@@ -37,7 +37,7 @@
                 }
             }
 
-            $con->query("INSERT INTO bills (citizenid,type,amount) VALUES ('".$con->real_escape_string($_POST["citizenid"])."','police','".$con->real_escape_string($totalprice)."')");
+            $con->query("INSERT INTO phone_invoices (citizenid,society,amount) VALUES ('".$con->real_escape_string($_POST["citizenid"])."','Politie','".$con->real_escape_string($totalprice)."')");
 
             if ($insert) {
                 $last_id = $con->insert_id;
@@ -151,21 +151,10 @@
       <h3 class="hide">Politie Fomato</h3>
     </div>
 
-    <div class="search">
-      <i class='bx bx-search'></i>
-      <form method="post">
-      <input type="hidden" name="type" value="search">
-      <input name="search" type="text" class="hide" placeholder="Zoek Personen">
-  </form>
-    </div>
+    
 
-    <!-- <form method="post" class="form-inline ml-auto">
-                        <input type="hidden" name="type" value="search">
-                        <div class="md-form my-0">
-                            <input class="form-control" name="search" type="text" placeholder="Zoek een persoon.." aria-label="Search">
-                        </div>
-                        <button type="submit" name="issabutn" class="btn btn-pol btn-md my-0 ml-sm-2">ZOEK</button>
-                    </form> -->
+    <div class="searchother">
+    </div>
 
 
     <div class="sidebar-links">
@@ -217,7 +206,7 @@
       
       
       
-      <?php if ($_SESSION["rank"] == "Leiding") { ?>
+      <?php if ($_SESSION["role"] == "admin") { ?>
       <h4 class="hide">Leiding</h4>
       <ul>
         <li class="tooltip-element" data-tooltip="0">
@@ -319,10 +308,6 @@
 <script>
 	ClassicEditor
 		.create( document.querySelector( '#editor' ), {
-            cloudServices: {
-            tokenUrl: 'https://87227.cke-cs.com/token/dev/147cf738f871ee8a9d8260f25da08548eb07885ce5bff42c5c14a4dafee8?limit=10',
-            uploadUrl: 'https://87227.cke-cs.com/easyimage/upload/'
-        }
 			
         
 		} )
@@ -370,7 +355,7 @@
 <li>BASISTEAM LOS SANTOS</li>
 <br />
 <p>RAPPORTAGE:</p>
-<li>Ik, van politie <?php echo $firstname . " " . substr($lastname, 0, 1); ?> met de functie <?php echo $_SESSION["rank"] ?> maak het volgende rapport.</li>
+<li>Ik, <?php echo $firstname . " " . substr($lastname, 0, 1); ?> van politie Fomato met de functie <?php echo $_SESSION["rank"] ?> maak het volgende rapport.</li>
 <li>Op <?php echo date("d/m/Y") ?> omstreeks <?php echo date("H:i") ?> uur,bevond ik mij in uniform gekleed en met algemene politietaak belast op de openbare weg,  En heb het volgende geconstateerd</li>
 <br>
 <p>BEVINDINGEN</p>
@@ -389,11 +374,7 @@
 <script>
 	ClassicEditor
 		.create( document.querySelector( '#editor' ), {
-            cloudServices: {
-            tokenUrl: 'https://87227.cke-cs.com/token/dev/147cf738f871ee8a9d8260f25da08548eb07885ce5bff42c5c14a4dafee8?limit=10',
-            uploadUrl: 'https://87227.cke-cs.com/easyimage/upload/'
-        }
-			
+
         
 		} )
 		.then( editor => {
