@@ -17,6 +17,7 @@
                 $_SESSION['role'] = $row['role'];
                 $_SESSION['name'] = $row['name'];
                 $_SESSION['rank'] = $row['rank'];
+                $_SESSION['sub'] = $row['sub'];
                 $_SESSION['profilepic'] = $row['profilepic'];
                 $_SESSION['id'] = $row['id'];
                 $_SESSION["personid"] = NULL;
@@ -28,6 +29,10 @@
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
                 } else {
                     Header("Location: dashboard");
+                    header('Cache-Control: no cache'); //no cache
+                    session_cache_limiter('private_no_expire'); // works
+                    session_start();
+
                 }
             } else {
                 Header("Location: login?error");

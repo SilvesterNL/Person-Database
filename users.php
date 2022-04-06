@@ -12,7 +12,7 @@
             Header("Location:dashboard");
         }
         if ($_POST['type'] == "create") {
-            $insert = $con->query("INSERT INTO users (username,password,name,role,rank,profilepic,last_login) VALUES('".$con->real_escape_string($_POST['username'])."','".password_hash($con->real_escape_string($_POST['password']),PASSWORD_BCRYPT)."','".$con->real_escape_string($_POST['fullname'])."','".$con->real_escape_string($_POST['admin'])."','".$con->real_escape_string($_POST['rank'])."','".$con->real_escape_string($_POST['profilepic'])."','".date('Y-m-d')."')");
+            $insert = $con->query("INSERT INTO users (username,password,name,role,rank,sub,profilepic,last_login) VALUES('".$con->real_escape_string($_POST['username'])."','".password_hash($con->real_escape_string($_POST['password']),PASSWORD_BCRYPT)."','".$con->real_escape_string($_POST['fullname'])."','".$con->real_escape_string($_POST['admin'])."','".$con->real_escape_string($_POST['rank'])."','".$con->real_escape_string($_POST['sub'])."','".$con->real_escape_string($_POST['profilepic'])."','".date('Y-m-d')."')");
             if ($insert) {
                 $respone = true;
             }
@@ -28,7 +28,7 @@
             $query = $con->query("SELECT * FROM users WHERE id = ".$con->real_escape_string($_POST['edituser']));
             $selecteduser = $query->fetch_assoc();
         } elseif ($_POST['type'] == "realedit") {
-            $update = $con->query("UPDATE users SET username = '".$con->real_escape_string($_POST['username'])."', name = '".$con->real_escape_string($_POST['fullname'])."', rank = '".$con->real_escape_string($_POST['rank'])."', profilepic = '".$con->real_escape_string($_POST['profilepic'])."', role = '".$con->real_escape_string($_POST['admin'])."' WHERE id = ".$_POST['userid']);
+            $update = $con->query("UPDATE users SET username = '".$con->real_escape_string($_POST['username'])."', name = '".$con->real_escape_string($_POST['fullname'])."', rank = '".$con->real_escape_string($_POST['rank'])."', sub = '".$con->real_escape_string($_POST['sub'])."', profilepic = '".$con->real_escape_string($_POST['profilepic'])."', role = '".$con->real_escape_string($_POST['admin'])."' WHERE id = ".$_POST['userid']);
             if ($update) {
                 $respone = true;
             } else {
@@ -84,13 +84,12 @@
 
     
 
-    <div class="searchother">
-    </div>
+    <div class="search"></div>
 
 
     <div class="sidebar-links">
       <ul>
-        <div style="top: 302.5px!important;" class="active-tab"></div>
+        <div style="top: 363.5px!important;" class="active-tab"></div>
         <li class="tooltip-element" data-tooltip="0">
           <a href="dashboard"  data-active="0">
             <div class="icon">
@@ -127,11 +126,21 @@
             <span class="link hide">Arrestatiebevelen</span>
           </a>
         </li>
+        <li class="tooltip-element" data-tooltip="4">
+          <a href="archiefvieuwer" data-active="3">
+            <div class="icon">
+              <i class='bx bx-archive'></i>
+              <i class='bx bx-archive'></i>
+            </div>
+            <span class="link hide">Archief</span>
+          </a>
+        </li>
         <div class="tooltip">
           <span class="show">Dashboard</span>
           <span>Personen</span>
           <span>Rapportages</span>
           <span>Arrestatiebevelen</span>
+          <span>Archief</span>
         </div>
       </ul>
       
@@ -191,7 +200,7 @@
             <h5><?php echo $_SESSION["rank"]; ?></h5>
           </div>
         </div>
-        <a href="logout" class="log-out">
+        <a href="./logout" class="log-out">
           <i class='bx bx-log-out'></i>
         </a>
       </div>
@@ -229,17 +238,23 @@
                             <option value="Hoofdinspecteur">Hoofdinspecteur</option>
                             <option value="1E-Hoofdinspecteur">1e Hoofdcommissaris</option>
                         </select>
+                        <select class="form-control" style="margin-bottom:2vh;" name="sub" required>
+                            <option value="Aspirant">Geen</option>
+                            <option value="Recherche">Recherche</option>
+                            <option value="DSI">DSI</option>
+                        </select>
                         <div class="input-group mb-3">
                         <input type="text" name="profilepic" class="form-control login-user" value="<?php echo $selecteduser['profilepic']; ?>" placeholder="Profiel Foto">
                         </div>
                         <h6>Admin?</h6>
-                        <h10><strong>Vergeet niet om maar 1 box aan te vinken!</strong></h10>
-                        <br>
-                        <input type="checkbox" id="admin" name="admin" value="admin">
-                        <label for="admin">Ja</label>
-                        <br />
-                        <input checked type="checkbox" id="user" name="admin" value="user">
-                            <label for="user">Nee</label>
+                        <div>
+      <label>
+    <input type="checkbox"  name="admin" value="admin" /> Admin</label>
+  <label>
+    <input checked type="checkbox"  name="admin" value="user" /> User</label>
+</div>
+
+
                         <div class="form-group">
                             <button type="submit" name="create" class="btn btn-primary btn-police">Pas aan</button>
                         </div>
@@ -318,18 +333,21 @@
                             <option value="Hoofdinspecteur">Hoofdinspecteur</option>
                             <option value="1E-Hoofdinspecteur">1e Hoofdcommissaris</option>
                         </select>
-                            
+                        <select class="form-control" style="margin-bottom:2vh;" name="sub" required>
+                            <option value="Geen">Geen</option>
+                            <option value="Rescherche">Recherche</option>
+                            <option value="DSI">DSI</option>
+                        </select>
                         <div class="input-group mb-3">
                             <input type="url" name="profilepic" class="form-control login-user" value="" placeholder="Profiel foto van Agent (link eindigt op .png | .jpg)" required>
                         </div>
                         <h6>Admin?</h6>
-                        <h10><strong>Vergeet niet om maar 1 box aan te vinken!</strong></h10>
-                        <br>
-                        <input type="checkbox" id="admin" name="admin" value="admin">
-                        <label for="admin">Ja</label>
-                        <br />
-                        <input checked type="checkbox" id="user" name="admin" value="user">
-                            <label for="user">Nee</label>
+                        <div>
+      <label>
+    <input type="checkbox"  name="admin" value="admin" /> Admin</label>
+  <label>
+    <input checked type="checkbox"  name="admin" value="user" /> User</label>
+</div>
                         <div class="form-group">
                             <button type="submit" name="create" class="btn btn-primary btn-police">Voeg toe</button>
                         </div>

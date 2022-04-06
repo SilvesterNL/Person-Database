@@ -2,6 +2,7 @@
     require "requires/config.php";
     if (!$_SESSION['loggedin']) {
         Header("Location: login");
+        header('Cache-Control: no cache');
     }
     $respone = false;
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -10,26 +11,47 @@
             $search_array = [];
             while ($data = $result->fetch_assoc()) { 
                 $search_array[] = $data;
+                header('Cache-Control: no cache');
             }
         }elseif ($_POST['type'] == "show" || isset($_SESSION["personid"]) && $_SESSION["personid"] != NULL) {
             if (isset($_SESSION["personid"]) && $_SESSION["personid"] != NULL) {
                 $personId = $_SESSION["personid"];
                 $citizenid = $_SESSION["citizenid"];
+                $_SESSION["personPo"] = $personId;
+                header('Cache-Control: no cache');
             } else {
                 $personId = $_POST['personid'];
                 $citizenid = $_SESSION["citizenid"];
+                header('Cache-Control: no cache');
+            }
+            if ($_POST['type'] == "edit") {
+              $_SESSION["personPo"] = $personId;
+              
+              $query = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($personId));
+              $selectedprofile = $query->fetch_assoc();
+              header('Cache-Control: no cache');
+              
             }
             $query = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($personId));
             $selectedprofile = $query->fetch_assoc();
+            header('Cache-Control: no cache');
             
             $result = $con->query("SELECT * FROM reports WHERE profileid = ".$con->real_escape_string($personId)." ORDER BY created DESC");
             $update = $con->query("UPDATE profiles SET lastsearch = ".time()." WHERE id = ".$personId);
             $reports_array = [];
             while ($data = $result->fetch_assoc()) { 
                 $reports_array[] = $data;
+                header('Cache-Control: no cache');
+            }
+
+            $result = $con->query("SELECT * FROM reportsres WHERE profileid = ".$con->real_escape_string($personId)." ORDER BY created DESC");
+            $reportsres_array = [];
+            while ($datares = $result->fetch_assoc()) { 
+                $reportsres_array[] = $datares;
+                header('Cache-Control: no cache');
             }
             
-            $_SESSION["personid"] = NULL;
+            
         }
     }
 
@@ -39,6 +61,7 @@
     $firstname = $name[0];
     $last_word_start = strrpos($_SESSION["name"], ' ') + 1;
     $lastname = substr($_SESSION["name"], $last_word_start);
+    header('Cache-Control: no cache');
 ?>
 
 <!doctype html>
@@ -80,8 +103,7 @@
 
     
 
-    <div class="searchother">
-    </div>
+    <div class="search"></div>
 
 
     <div class="sidebar-links">
@@ -123,11 +145,21 @@
             <span class="link hide">Arrestatiebevelen</span>
           </a>
         </li>
+        <li class="tooltip-element" data-tooltip="4">
+          <a href="archiefvieuwer" data-active="3">
+            <div class="icon">
+              <i class='bx bx-archive'></i>
+              <i class='bx bx-archive'></i>
+            </div>
+            <span class="link hide">Archief</span>
+          </a>
+        </li>
         <div class="tooltip">
           <span class="show">Dashboard</span>
           <span>Personen</span>
           <span>Rapportages</span>
           <span>Arrestatiebevelen</span>
+          <span>Archief</span>
         </div>
       </ul>
       
@@ -187,7 +219,7 @@
             <h5><?php echo $_SESSION["rank"]; ?></h5>
           </div>
         </div>
-        <a href="logout" class="log-out">
+        <a href="./logout" class="log-out">
           <i class='bx bx-log-out'></i>
         </a>
       </div>
@@ -208,11 +240,20 @@
                     <?php if ($_SERVER['REQUEST_METHOD'] != "POST" || $_SERVER['REQUEST_METHOD'] == "POST" && $_POST['type'] != "show") { ?>
                         <a href="createprofile" class="btn btn-pol btn-md my-0 ml-sm-2">MAAK NIEUW PROFIEL</a>
                     <?php } else { ?>
+                      <?php if ($_SESSION["sub"] == "Recherche") { ?>
+                        <form method="post" action="createprofileres">
+                            <input type="hidden" name="type" value="edit">
+                            <input type="hidden" name="profileid" value="<?php echo $selectedprofile['id']; ?>">
+                            <button type="submit" name="issabutn" class="btn btn-pol btn-md my-0 ml-sm-2">PAS PROFIEL AAN</button>
+                        </form>
+                        <?php } ?>
+                        <?php if ($_SESSION["sub"] == "DSI" or $_SESSION["sub"] == "Geen") { ?>
                         <form method="post" action="createprofile">
                             <input type="hidden" name="type" value="edit">
                             <input type="hidden" name="profileid" value="<?php echo $selectedprofile['id']; ?>">
                             <button type="submit" name="issabutn" class="btn btn-pol btn-md my-0 ml-sm-2">PAS PROFIEL AAN</button>
                         </form>
+                        <?php } ?>
                     <?php } ?>
                     <br /><br />
                     <form method="post" class="form-inline ml-auto">
@@ -256,13 +297,16 @@
                         while ($data1 = $warrant->fetch_assoc()) { 
                             $warrant_array[] = $data1;
                         }
-                        ?>
+                        ?>                        
                             <p><strong>Naam:</strong><br /><?php echo $selectedprofile["fullname"]; ?></p>
+                            <?php $_SESSION["recherchenaam"] = $selectedprofile["fullname"]; ?>
                             <p><strong>BSN:</strong><br /><?php echo $selectedprofile["citizenid"]; ?></p>
                             <p><strong>Vinger Patroon:</strong><br /><?php echo $selectedprofile["fingerprint"]; ?></p>
                             <p><strong>DNA Code:</strong><br /><?php echo $selectedprofile["dnacode"]; ?></p>
                             <p><strong>Notitie:</strong><br /><?php echo $selectedprofile["note"]; ?></p>
-                            
+                            <?php if ($_SESSION["sub"] == "Recherche") { ?>
+                            <p><strong>Punten:</strong><br /><?php echo $selectedprofile["punten"]; ?></p>
+                            <?php } ?>
                             <strong>Arrestatiebevelen:</strong>
                             <?php if (empty($warrant_array)) { ?>
                                     <p>Geen arrestatiebevelen gevonden</p>
@@ -295,6 +339,7 @@
                             </form>
                             <br />
                             <h5 class="panel-container-title">Laatste rapportages</h5>
+
                             <div class="panel-list">
                                 <?php if (empty($reports_array)) { ?>
                                     <p>Geen reportages gevonden bij deze persoon..</p>
@@ -304,13 +349,40 @@
                                             <input type="hidden" name="type" value="show">
                                             <input type="hidden" name="reportid" value="<?php echo $report['id']; ?>">
                                             <button type="submit" class="btn btn-panel panel-item">
-                                                <h5 class="panel-title">#<?php echo $report['id']; ?> <?php echo $report['title']; ?></h5>
-                                                <p class="panel-author">door: <?php echo $report['author']; ?></p>
+                                                <h5 class="panel-title"><?php echo $report['title']; ?></h5>
+                                                <p class="panel-author">Door: <?php echo $report['author']; ?></p>
                                             </button>
                                         </form>
                                     <?php }?>
                                 <?php } ?>
                             </div>
+                            <br />
+                            <?php if ($_SESSION["sub"] == "Recherche") { ?>
+                              
+                              <h5 class="panel-container-title">Laatste recherche rapportages</h5>
+                              <form method="post" action="createreportres" style="float:right; margin-left: 1vw; margin-top:-41px;">
+                              
+                                <input type="hidden" name="type" value="createnewres">
+                                <input type="hidden" name="profileid" value="<?php echo $selectedprofile['id']; ?>">
+                                <button type="submit" name="issabutn" style="margin-left:0!important;" class="btn btn-success btn-md my-0 ml-sm-2">NIEUW RAPPORT</button>
+                            </form>
+                              <div class="panel-list">
+                                <?php if (empty($reportsres_array)) { ?>
+                                    <p>Geen recherche reportages gevonden bij deze persoon..</p>
+                                <?php } else { ?>
+                                    <?php foreach($reportsres_array as $reportres) {?>
+                                        <form method="post" action="reportsres">
+                                            <input type="hidden" name="type" value="show">
+                                            <input type="hidden" name="reportid" value="<?php echo $reportres['id']; ?>">
+                                            <button type="submit" class="btn btn-panel panel-item">
+                                                <h5 class="panel-title"><?php echo $reportres['title']; ?></h5>
+                                                <p class="panel-author">Door: <?php echo $reportres['author']; ?></p>
+                                            </button>
+                                        </form>
+                                    <?php }?>
+                                <?php } ?>
+                            </div>
+                              <?php } ?>
                         </div>
                     </div>
                 <?php } ?>

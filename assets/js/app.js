@@ -23,6 +23,8 @@ search.addEventListener("click", () => {
   search.lastElementChild.focus();
 });
 
+
+
 window.addEventListener('load', (event) => {
   if (window.matchMedia("(min-width: 1635px)").matches) {
     document.body.classList.remove("shrink");

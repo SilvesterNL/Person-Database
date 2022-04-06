@@ -81,13 +81,16 @@
       <h3 class="hide">Politie Fomato</h3>
     </div>
 
+    
     <div class="search">
+    <div class="search1">
       <i class='bx bx-search'></i>
       <form method="post">
-      <input type="hidden" name="type" value="search">
+      <input class="zoekbalk" type="hidden" name="type" value="search">
       <input name="search" type="text" class="hide" placeholder="Zoek Personen">
   </form>
     </div>
+</div>
 
 
 
@@ -130,11 +133,21 @@
             <span class="link hide">Arrestatiebevelen</span>
           </a>
         </li>
+        <li class="tooltip-element" data-tooltip="4">
+          <a href="archiefvieuwer" data-active="3">
+            <div class="icon">
+              <i class='bx bx-archive'></i>
+              <i class='bx bx-archive'></i>
+            </div>
+            <span class="link hide">Archief</span>
+          </a>
+        </li>
         <div class="tooltip">
           <span class="show">Dashboard</span>
           <span>Personen</span>
           <span>Rapportages</span>
           <span>Arrestatiebevelen</span>
+          <span>Archief</span>
         </div>
       </ul>
       
@@ -194,7 +207,7 @@
             <h5><?php echo $_SESSION["rank"]; ?></h5>
           </div>
         </div>
-        <a href="logout" class="log-out">
+        <a href="./logout" class="log-out">
           <i class='bx bx-log-out'></i>
         </a>
       </div>
@@ -324,7 +337,7 @@
                                 <input type="hidden" name="type" value="show">
                                 <input type="hidden" name="reportid" value="<?php echo $report['id']; ?>">
                                 <button type="submit" class="btn btn-panel panel-item" style="text-align:left!important;">
-                                    <h5 class="panel-title">#<?php echo $report['id']; ?> <?php echo $report['title']; ?></h5>
+                                    <h5 class="panel-title"><?php echo $report['title']; ?></h5>
                                     <p class="panel-author">door: <?php echo $report['author']; ?></p>
                                 </button>
                             </form>
@@ -369,3 +382,5 @@
         <script src="assets/js/app.js"></script>
     </body>
 </html>
+
+

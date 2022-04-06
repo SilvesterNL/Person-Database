@@ -131,7 +131,8 @@ nav:hover .shrink-btn,
   color: rgb(0, 0, 0);
 }
 
-.search {
+
+.search1 {
   min-height: 2.7rem;
   background-color: #2f2f2f;
   margin: 2rem 0.5rem 1.7rem;
@@ -143,7 +144,7 @@ nav:hover .shrink-btn,
   cursor: pointer;
 }
 
-.search input {
+.search1 input {
   height: 100%;
   border: none;
   background: none;
@@ -153,7 +154,21 @@ nav:hover .shrink-btn,
   font-family: inherit;
 }
 
-.search input::placeholder {
+.zoekbalk:webkit-autofill {
+  height: 100%;
+  border: none!important;
+  background: none!important;
+  outline: none!important;
+  color: #fff;
+  caret-color: #fff;
+  font-family: inherit;
+}
+
+
+
+
+
+.search1 input::placeholder {
   color: #fff;
 }
 

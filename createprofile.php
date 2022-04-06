@@ -59,6 +59,7 @@
         <link href="assets/css/main.css" rel="stylesheet">
         <link href="assets/css/profiles.css" rel="stylesheet">
         <link href="assets/css/navbar.css" rel="stylesheet">
+
     </head>
     <body>
     <nav>
@@ -72,8 +73,7 @@
 
     
 
-    <div class="searchother">
-    </div>
+    <div class="search"></div>
 
 
     <div class="sidebar-links">
@@ -115,11 +115,21 @@
             <span class="link hide">Arrestatiebevelen</span>
           </a>
         </li>
+        <li class="tooltip-element" data-tooltip="4">
+          <a href="archiefvieuwer" data-active="3">
+            <div class="icon">
+              <i class='bx bx-archive'></i>
+              <i class='bx bx-archive'></i>
+            </div>
+            <span class="link hide">Archief</span>
+          </a>
+        </li>
         <div class="tooltip">
           <span class="show">Dashboard</span>
           <span>Personen</span>
           <span>Rapportages</span>
           <span>Arrestatiebevelen</span>
+          <span>Archief</span>
         </div>
       </ul>
       
@@ -179,7 +189,7 @@
             <h5><?php echo $_SESSION["rank"]; ?></h5>
           </div>
         </div>
-        <a href="logout" class="log-out">
+        <a href="./logout" class="log-out">
           <i class='bx bx-log-out'></i>
         </a>
       </div>
@@ -201,19 +211,19 @@
                     <input type="hidden" name="type" value="realedit">
                     <input type="hidden" name="profileid" value="<?php echo $selectedprofile["id"]; ?>">
                     <div class="input-group mb-3">
-                        <input type="text" name="citizenid" class="form-control login-user" value="<?php echo $selectedprofile["citizenid"]; ?>" placeholder="Burger Service Nummer" required>
+                        <input type="text" name="citizenid" class="form-control login-user" value="<?php echo $selectedprofile["citizenid"]; ?>" placeholder="bsn" required>
                     </div>
                     <div class="input-group mb-2">
-                        <input type="text" name="fullname" class="form-control login-pass" value="<?php echo $selectedprofile["fullname"]; ?>" placeholder="Volledige Naam" required>
+                        <input type="text" name="fullname" class="form-control login-pass" value="<?php echo $selectedprofile["fullname"]; ?>" placeholder="volledige naam" required>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="avatar" class="form-control login-user" value="<?php echo $selectedprofile["avatar"]; ?>" placeholder="Profiel Foto (imgur URL vb. https://i.imgur.com/zKDjdhe.png)" required>
+                        <input type="text" name="avatar" class="form-control login-user" value="<?php echo $selectedprofile["avatar"]; ?>" placeholder="profiel foto (imgur URL vb. https://i.imgur.com/zKDjdhe.png)" required>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="fingerprint" class="form-control login-user" value="<?php echo $selectedprofile["fingerprint"]; ?>" placeholder="Vingerpatroon">
+                        <input type="text" name="fingerprint" class="form-control login-user" value="<?php echo $selectedprofile["fingerprint"]; ?>" placeholder="vinger patroon">
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="dnacode" class="form-control login-user" value="<?php echo $selectedprofile["dnacode"]; ?>" placeholder="Dna Code">
+                        <input type="text" name="dnacode" class="form-control login-user" value="<?php echo $selectedprofile["dnacode"]; ?>" placeholder="dna code">
                     </div>
                     <?php $notes = str_replace( "<br />", '', $selectedprofile["note"]); ?>
                     <div class="input-group mb-2">
@@ -227,25 +237,25 @@
                 <form method="post">
                     <input type="hidden" name="type" value="create">
                     <div class="input-group mb-3">
-                        <input type="text" name="citizenid" class="form-control login-user" value="" placeholder="Burger Service Nummer (Het moet een bestaand bsn zijn!)" required>
+                        <input type="text" name="citizenid" class="form-control login-user" value="" placeholder="bsn" required>
                     </div>
                     <div class="input-group mb-2">
-                        <input type="text" name="fullname" class="form-control login-pass" value="" placeholder="Volledige Naam" required>
+                        <input type="text" name="fullname" class="form-control login-pass" value="" placeholder="volledige naam" required>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="url" name="avatar" class="form-control login-user" value="" placeholder="Profiel Foto (imgur URL vb. https://i.imgur.com/zKDjdhe.png)" required>
+                        <input type="text" name="avatar" class="form-control login-user" value="" placeholder="profiel foto (imgur URL vb. https://i.imgur.com/zKDjdhe.png)">
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="fingerprint" class="form-control login-user" value="" placeholder="Vingerpatroon">
+                        <input type="text" name="fingerprint" class="form-control login-user" value="" placeholder="vinger patroon">
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="dnacode" class="form-control login-user" value="" placeholder="Dna Code">
+                        <input type="text" name="dnacode" class="form-control login-user" value="" placeholder="dna code">
                     </div>
                     <div class="input-group mb-2">
-                        <textarea name="note" class="form-control" value="" placeholder="Notitie"></textarea>
+                        <textarea name="note" class="form-control" value="" placeholder="notitie"></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="submit" name="create" class="btn btn-primary btn-police">Maak Rapport</button>
+                        <button type="submit" name="create" class="btn btn-primary btn-police">Voeg toe</button>
                     </div>
                 </form>
             <?php } ?>

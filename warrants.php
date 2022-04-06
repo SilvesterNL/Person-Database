@@ -73,8 +73,7 @@
 
     
 
-    <div class="searchother">
-    </div>
+    <div class="search"></div>
 
 
     <div class="sidebar-links">
@@ -116,11 +115,21 @@
             <span class="link hide">Arrestatiebevelen</span>
           </a>
         </li>
+        <li class="tooltip-element" data-tooltip="4">
+          <a href="archiefvieuwer" data-active="3">
+            <div class="icon">
+              <i class='bx bx-archive'></i>
+              <i class='bx bx-archive'></i>
+            </div>
+            <span class="link hide">Archief</span>
+          </a>
+        </li>
         <div class="tooltip">
           <span class="show">Dashboard</span>
           <span>Personen</span>
           <span>Rapportages</span>
           <span>Arrestatiebevelen</span>
+          <span>Archief</span>
         </div>
       </ul>
       
@@ -180,7 +189,7 @@
             <h5><?php echo $_SESSION["rank"]; ?></h5>
           </div>
         </div>
-        <a href="logout" class="log-out">
+        <a href="./logout" class="log-out">
           <i class='bx bx-log-out'></i>
         </a>
       </div>

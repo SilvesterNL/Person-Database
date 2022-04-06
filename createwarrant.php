@@ -69,8 +69,7 @@
 
     
 
-    <div class="searchother">
-    </div>
+    <div class="search"></div>
 
 
     <div class="sidebar-links">
@@ -176,7 +175,7 @@
             <h5><?php echo $_SESSION["rank"]; ?></h5>
           </div>
         </div>
-        <a href="logout" class="log-out">
+        <a href="./logout" class="log-out">
           <i class='bx bx-log-out'></i>
         </a>
       </div>

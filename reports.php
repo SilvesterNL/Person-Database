@@ -2,6 +2,7 @@
     require "requires/config.php";
     if (!$_SESSION['loggedin']) {
         Header("Location: login");
+        header('Cache-Control: no cache');
     }
     $respone = false;
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -10,19 +11,23 @@
             $search_array = [];
             while ($data = $result->fetch_assoc()) { 
                 $search_array[] = $data;
+                header('Cache-Control: no cache');
             }
         }
         if ($_POST['type'] == "show" || isset($_SESSION["reportid"]) && $_SESSION["reportid"] != NULL) {
             if (isset($_SESSION["reportid"]) && $_SESSION["reportid"] != NULL) {
                 $reportId = $_SESSION["reportid"];
+                header('Cache-Control: no cache');
             } else {
                 $reportId = $_POST['reportid'];
+                header('Cache-Control: no cache');
             }
             $query = $con->query("SELECT * FROM reports WHERE id = ".$con->real_escape_string($reportId));
             $selectedreport = $query->fetch_assoc();
             $lawids = json_decode($selectedreport["laws"], true);
             $profile = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($selectedreport["profileid"]));
             $profiledata = $profile->fetch_assoc();
+            header('Cache-Control: no cache');
             $lawdata = [];
             if (!empty($lawids)) {
                 foreach($lawids as $lawid) {
@@ -33,6 +38,7 @@
             $_SESSION["reportid"] = NULL;
         }
     }
+    header('Cache-Control: no cache');
     $name = explode(" ", $_SESSION["name"]);
     $firstname = $name[0];
     $last_word_start = strrpos($_SESSION["name"], ' ') + 1;
@@ -77,8 +83,7 @@
 
     
 
-    <div class="searchother">
-    </div>
+    <div class="search"></div>
 
 
     <div class="sidebar-links">
@@ -120,11 +125,21 @@
             <span class="link hide">Arrestatiebevelen</span>
           </a>
         </li>
+        <li class="tooltip-element" data-tooltip="4">
+          <a href="archiefvieuwer" data-active="3">
+            <div class="icon">
+              <i class='bx bx-archive'></i>
+              <i class='bx bx-archive'></i>
+            </div>
+            <span class="link hide">Archief</span>
+          </a>
+        </li>
         <div class="tooltip">
           <span class="show">Dashboard</span>
           <span>Personen</span>
           <span>Rapportages</span>
           <span>Arrestatiebevelen</span>
+          <span>Archief</span>
         </div>
       </ul>
       
@@ -184,7 +199,7 @@
             <h5><?php echo $_SESSION["rank"]; ?></h5>
           </div>
         </div>
-        <a href="logout" class="log-out">
+        <a href="./logout" class="log-out">
           <i class='bx bx-log-out'></i>
         </a>
       </div>

@@ -90,7 +90,7 @@
       <ul>
         <div style="top:233px;" class="active-tab"></div>
         <li class="tooltip-element" data-tooltip="0">
-          <a href="dashboard"  data-active="0">
+          <a href="../dashboard"  data-active="0">
             <div class="icon">
               <i class='bx bx-home'></i>
               <i class='bx bx-home'></i>
@@ -99,7 +99,7 @@
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="1">
-          <a href="profiles" data-active="1">
+          <a href="../profiles" data-active="1">
             <div class="icon">
               <i class='bx bx-male'></i>
               <i class='bx bx-male'></i>
@@ -108,7 +108,7 @@
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="2">
-          <a href="reports" data-active="2">
+          <a href="../reports" data-active="2">
             <div class="icon">
               <i class='bx bx-message-square-detail'></i>
               <i class='bx bxs-message-square-detail'></i>
@@ -117,7 +117,7 @@
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="3">
-          <a href="warrants" data-active="3">
+          <a href="../warrants" data-active="3">
             <div class="icon">
               <i class='bx bx-target-lock'></i>
               <i class='bx bx-target-lock'></i>
@@ -126,7 +126,7 @@
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="3">
-          <a href="archief" class="active" data-active="3">
+          <a href="../archiefvieuwer" class="active" data-active="3">
             <div class="icon">
               <i class='bx bx-archive'></i>
               <i class='bx bx-archive'></i>
@@ -148,7 +148,7 @@
       <h4 class="hide">Leiding</h4>
       <ul>
         <li class="tooltip-element" data-tooltip="0">
-          <a href="users" data-active="4">
+          <a href="../users" data-active="4">
             <div class="icon">
               <i class='bx bx-male'></i>
               <i class='bx bx-male'></i>
@@ -157,7 +157,7 @@
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="1">
-          <a href="laws" data-active="5">
+          <a href="../laws" data-active="5">
             <div class="icon">
               <i class='bx bx-folder'></i>
               <i class='bx bx-folder'></i>
@@ -166,7 +166,7 @@
           </a>
         </li>
         <li class="tooltip-element" data-tooltip="2">
-          <a href="settings" data-active="6">
+          <a href="../settings" data-active="6">
             <div class="icon">
               <i class='bx bx-cog'></i>
               <i class='bx bxs-cog'></i>
@@ -198,7 +198,7 @@
             <h5><?php echo $_SESSION["rank"]; ?></h5>
           </div>
         </div>
-        <a href="logout" class="log-out">
+        <a href="../logout" class="log-out">
           <i class='bx bx-log-out'></i>
         </a>
       </div>
