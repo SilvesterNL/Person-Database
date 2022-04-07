@@ -2,6 +2,7 @@
     require "requires/config.php";
     if (!$_SESSION['loggedin']) {
         Header("Location: login");
+        header('Cache-Control: no cache');
     }
     $response = false;
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -10,24 +11,31 @@
             $selectedwarrant = $query->fetch_assoc();
             $profile = $con->query("SELECT * FROM profiles WHERE citizenid = '".$con->real_escape_string($selectedwarrant["citizenid"])."'");
             $profiledata = $profile->fetch_assoc();
+            header('Cache-Control: no cache');
         } elseif ($_POST['type'] == "delete") {
-            $sql = "DELETE FROM warrants WHERE id = ".$con->real_escape_string($_POST['warrantid']);
+            $sql = "DELETE FROM warrants WHERE id = ".$con->real_escape_string($_SESSION["warrantid"]);
             if ($con->query($sql)) {
                 $response = true;
+                header('Cache-Control: no cache');
             } else {
                 echo "Error deleting record: " . mysqli_error($con);
+                header('Cache-Control: no cache');
                 exit();
             }
         }
     }
     $result = $con->query("SELECT * FROM warrants ORDER BY created DESC");
+    header('Cache-Control: no cache');
     $warrant_array = [];
     while ($data = $result->fetch_assoc()) { 
+      header('Cache-Control: no cache');
         $profile = $con->query("SELECT * FROM profiles WHERE citizenid = '".$con->real_escape_string($data["citizenid"])."'");
         $profiledata = $profile->fetch_assoc();
         $data["fullname"] = $profiledata["fullname"];
         $warrant_array[] = $data;
     }
+
+
     $name = explode(" ", $_SESSION["name"]);
     $firstname = $name[0];
     $last_word_start = strrpos($_SESSION["name"], ' ') + 1;
@@ -221,6 +229,7 @@
                                 <button type="submit" class="btn warrant-item">
                                     <h5 class="warrant-title"><?php echo $warrant["title"]; ?> - <?php echo $warrant["fullname"]; ?></h5>
                                     <p class="warrant-author">door: <?php echo $warrant["author"]; ?></p>
+                                    <?php $_SESSION["author"] = $warrant["author"]; ?>
                                     <?php 
                                         $datetime = new DateTime($warrant["created"]);
                                         echo '<p class="warrant-author">Aangemaakt: '.$datetime->format('d/m/y H:i').'</p>';
@@ -233,13 +242,75 @@
                 <div class="warrant-report">
                     <?php if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["type"] == "show") { ?>
                         <div class="report-show">
-                            <h4 class="report-title"><?php echo $selectedwarrant["title"]; ?></h4>
-                            <p>Betfreft: <?php echo $selectedwarrant["naam"]; ?> (<?php echo $selectedwarrant["citizenid"]; ?>)</p>
-                            <hr>
-                            <strong>Omschrijving:</strong>
-                            <p class="report-description"><?php echo $selectedwarrant["description"]; ?></p>
-                            <p class="report-author"><i>Geschreven door: <?php echo $selectedwarrant["author"]; ?></i></p>
+                          <div class="warrant">
+                            <?php $_SESSION["warrantid"] = $selectedwarrant["id"] ?>
+                            <img class="cjib" src="assets/images/cjib_logo.jpg" alt="cjib logo">
+                            <strong style="font-size:13px">Afzender</strong><br>
+                            <p>
+                            Openbaar Ministerie
+                            <br>
+                            Coordinatie politie
+                            <br>
+                            Postbus 5116
+                            <br>
+                            5467 KA Fortis
+                          </p>
+
+                          <p class="warrantleft">
+                            ARRESTATIEBEVEL
+                            <br>
+                            <?php echo $selectedwarrant["naam"] ?>
+                            <br>
+                            Burger service nummer 
+                            <br>
+                            <?php echo $selectedwarrant["citizenid"] ?>
+                          </p>
+                          <br>
+                        <p>
+                          De officier van justitie stelt dat de gestelde op verzoek van het lokaal OM gearresteerd dient te worden naar aanleidng van het overtreden van een of meerdere strafbare feiten.
+                        </p>
+                        <br />
+                        <p>
+                          Verbalisant
+                          <br>
+                          Naam:
+                          <br>
+                          Voornaam:
+                          <br>
+                          Bewijs:
+                          <br>
+                          Omschrijving:
+                        </p>
+                        <p class="warrantleft1"> 
+                          <?php echo $selectedwarrant["author"] ?>
+                          <br>
+                          <?php echo $selectedwarrant["naam"] ?>
+                          <br>
+<?php $authorname = explode(" ", $selectedwarrant["naam"]);
+    $authorfirst = $authorname[0]; ?>
+                          <?php echo $authorfirst ?>
+                          <br>
+                          <?php echo $selectedwarrant["bewijs"] ?>
+                          <br>
+                          <?php echo $selectedwarrant["description"] ?>
+                        </p>
+                        <p> 
+                          <br>
+                          <br>
+                          De officier gelast de dienaar van de openbare mach aan wie zulks wordt opgedragen en aan wie dit bevel ter hand wordt gesteld de veroordeelde onmiddelijk gevangen te nemen en over te brengen naar een poltiebureau waar hij/zij zal worden ingesloten om zijn/haar straf te ondergaan danwel tijdelijk zal worden ingesloten in afwachting van plaatsing in een penitentaire inrichting.
+                          <br>
+                          <br>
+
+                          Fortis, <?php 
+                                        $datetime = new DateTime($warrant["created"]);
+                                        echo ''.$datetime->format('d/m/y H:i').'</p>';
+                                    ?>
+                          <br>
+                          De officier van justitie
+                        </p>
+                          </div>
                         </div>
+                       
                         <form method="post">
                             <input type="hidden" name="type" value="delete">
                             <input type="hidden" name="warrantid" value="<?php echo $warrant["id"]; ?>">

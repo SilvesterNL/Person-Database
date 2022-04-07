@@ -29,12 +29,15 @@
               
               $query = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($personId));
               $selectedprofile = $query->fetch_assoc();
+              $resultboetes = $con->query("SELECT amount FROM phone_invoices WHERE citizenid = ".$_SESSION["citizenid"]);
               header('Cache-Control: no cache');
-              
+    
             }
             $query = $con->query("SELECT * FROM profiles WHERE id = ".$con->real_escape_string($personId));
             $selectedprofile = $query->fetch_assoc();
-            header('Cache-Control: no cache');
+           
+              header('Cache-Control: no cache');
+    
             
             $result = $con->query("SELECT * FROM reports WHERE profileid = ".$con->real_escape_string($personId)." ORDER BY created DESC");
             $update = $con->query("UPDATE profiles SET lastsearch = ".time()." WHERE id = ".$personId);
@@ -101,7 +104,8 @@
       <h3 class="hide">Politie Fomato</h3>
     </div>
 
-    
+  
+
 
     <div class="search"></div>
 
@@ -297,12 +301,15 @@
                         while ($data1 = $warrant->fetch_assoc()) { 
                             $warrant_array[] = $data1;
                         }
-                        ?>                        
+                        
+                        ?>     
+                                           
                             <p><strong>Naam:</strong><br /><?php echo $selectedprofile["fullname"]; ?></p>
                             <?php $_SESSION["recherchenaam"] = $selectedprofile["fullname"]; ?>
                             <p><strong>BSN:</strong><br /><?php echo $selectedprofile["citizenid"]; ?></p>
                             <p><strong>Vinger Patroon:</strong><br /><?php echo $selectedprofile["fingerprint"]; ?></p>
                             <p><strong>DNA Code:</strong><br /><?php echo $selectedprofile["dnacode"]; ?></p>
+                            <p><strong>Openstaande Boetes:</strong><br /><?php echo $boetes["amount"]; ?></p>
                             <p><strong>Notitie:</strong><br /><?php echo $selectedprofile["note"]; ?></p>
                             <?php if ($_SESSION["sub"] == "Recherche") { ?>
                             <p><strong>Punten:</strong><br /><?php echo $selectedprofile["punten"]; ?></p>
@@ -312,7 +319,7 @@
                                     <p>Geen arrestatiebevelen gevonden</p>
                                 <?php } else { ?>
                                     <?php foreach($warrant_array as $warrant) {?>
-                                        
+                                      
                                         <form method="post" action="warrants">
                                             <input type="hidden" name="type" value="show">
                                             <input type="hidden" name="warrantid" value="<?php echo $warrant['id']; ?>">
@@ -342,7 +349,7 @@
 
                             <div class="panel-list">
                                 <?php if (empty($reports_array)) { ?>
-                                    <p>Geen reportages gevonden bij deze persoon..</p>
+                                    <p>Geen rapportages gevonden bij deze persoon..</p>
                                 <?php } else { ?>
                                     <?php foreach($reports_array as $report) {?>
                                         <form method="post" action="reports">
@@ -368,7 +375,7 @@
                             </form>
                               <div class="panel-list">
                                 <?php if (empty($reportsres_array)) { ?>
-                                    <p>Geen recherche reportages gevonden bij deze persoon..</p>
+                                    <p>Geen recherche rapportages gevonden bij deze persoon..</p>
                                 <?php } else { ?>
                                     <?php foreach($reportsres_array as $reportres) {?>
                                         <form method="post" action="reportsres">

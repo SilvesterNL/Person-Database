@@ -237,22 +237,22 @@
                 <form method="post">
                     <input type="hidden" name="type" value="create">
                     <div class="input-group mb-3">
-                        <input type="text" name="citizenid" class="form-control login-user" value="" placeholder="bsn" required>
+                        <input type="text" name="citizenid" class="form-control login-user" value="" placeholder="BSN" required>
                     </div>
                     <div class="input-group mb-2">
-                        <input type="text" name="fullname" class="form-control login-pass" value="" placeholder="volledige naam" required>
+                        <input type="text" name="fullname" class="form-control login-pass" value="" placeholder="Volledige Naam" required>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="avatar" class="form-control login-user" value="" placeholder="profiel foto (imgur URL vb. https://i.imgur.com/zKDjdhe.png)">
+                        <input type="text" name="avatar" class="form-control login-user" value="" placeholder="Profiel Foto (imgur URL vb. https://i.imgur.com/zKDjdhe.png)">
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="fingerprint" class="form-control login-user" value="" placeholder="vinger patroon">
+                        <input type="text" name="fingerprint" class="form-control login-user" value="" placeholder="Vinger Patroon">
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="dnacode" class="form-control login-user" value="" placeholder="dna code">
+                        <input type="text" name="dnacode" class="form-control login-user" value="" placeholder="Dna Code">
                     </div>
                     <div class="input-group mb-2">
-                        <textarea name="note" class="form-control" value="" placeholder="notitie"></textarea>
+                        <textarea name="note" class="form-control" value="" placeholder="Notitie"></textarea>
                     </div>
                     <div class="form-group">
                         <button type="submit" name="create" class="btn btn-primary btn-police">Voeg toe</button>

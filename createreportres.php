@@ -295,7 +295,7 @@
         <main role="main" class="container">
             <div class="content-introduction">
                 <h3>Report Maken</h3>
-                <p class="lead">Hier kun je een nieuw reportage aanmaken.<br />Je kunt een BSN koppelen aan een reportage (Hiervoor MOET er een profiel bestaan) of je kan het leeg laten en later toevoegen.<br />Je kunt ook straffen toevoegen (wanneer nodig) onderaan de pagina.</br>Om een straf weg te halen kun je klikken op dezelfde straf bij "Geselecteerde Straffen"</p>
+                <p class="lead">Hier kun je een nieuw rapportage aanmaken.<br />Je kunt een BSN koppelen aan een rapportage (Hiervoor MOET er een profiel bestaan) of je kan het leeg laten en later toevoegen.<br />Je kunt ook straffen toevoegen (wanneer nodig) onderaan de pagina.</br>Om een straf weg te halen kun je klikken op dezelfde straf bij "Geselecteerde Straffen"</p>
             </div>
             <div class="createreport-container">
                 <div class="createreport-left">
@@ -342,7 +342,7 @@
 
                         </div>
                         <div class="form-group">
-                            <button type="submit" name="create" class="btn btn-primary btn-police">Bewerk reportage</button>
+                            <button type="submit" name="create" class="btn btn-primary btn-police">Bewerk rapportage</button>
                         </div>
                     </form>
                 <?php } else { ?>
@@ -408,7 +408,7 @@
 </script>
                         </div>				
                         <div class="form-group">
-                            <button type="submit" name="create" class="btn btn-primary btn-police">Maak reportage</button>
+                            <button type="submit" name="create" class="btn btn-primary btn-police">Maak rapportage</button>
                         </div>
                     </form>
                 <?php } ?>

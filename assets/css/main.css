@@ -368,6 +368,8 @@ textarea {
 }
 
 
+
+
 .report-law-item .lawlist-title {
     color: #ffffff!important;
     font-size: 14px;
@@ -514,8 +516,9 @@ notitekst.strong {
 
 
 
+
 .report-show {
-    margin-top: 4vh;
+    margin-top: 2vh;
     padding: 10px 20px;
     border: 1px solid #252525;
 }
@@ -541,6 +544,8 @@ notitekst.strong {
 .warrents-container {
     width: 100%;
 }
+
+
 
 .warrants-list {
     width: 35%;
@@ -601,4 +606,24 @@ notitekst.strong {
 .warrant-report {
     width: 55%;
     float: right;
+    font-size: 12px;
+    
+}
+
+
+.cjib {
+    width: 519px;
+    margin-left: 61px;
+}
+
+.warrantleft {
+    text-align: right;
+    margin-top: -84px;
+}
+
+.warrantleft1 {
+    text-align: right;
+    margin-left: 187px;
+    margin-top: -104px;
+    max-width: 400px;
 }

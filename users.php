@@ -335,7 +335,7 @@
                         </select>
                         <select class="form-control" style="margin-bottom:2vh;" name="sub" required>
                             <option value="Geen">Geen</option>
-                            <option value="Rescherche">Recherche</option>
+                            <option value="Recherche">Recherche</option>
                             <option value="DSI">DSI</option>
                         </select>
                         <div class="input-group mb-3">

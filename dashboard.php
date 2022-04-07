@@ -311,7 +311,7 @@
                             <h5 class="panel-container-title">Laatste rapportages</h5>
                             <div class="panel-list">
                                 <?php if (empty($reports_array)) { ?>
-                                    <p>Geen reportages gevonden bij deze persoon..</p>
+                                    <p>Geen rapportages gevonden bij deze persoon..</p>
                                 <?php } else { ?>
                                     <?php foreach($reports_array as $report) {?>
                                         <form method="post" action="reports">

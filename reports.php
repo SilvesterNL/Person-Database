@@ -213,12 +213,12 @@
         <main role="main" class="container">
             <div class="content-introduction">
                 <h3>Reports</h3>
-                <p class="lead">Hier kun je reportages opzoeken, lezen en bijwerken. <br/> Gelieve niet een report bij te werken van iemand anders mits je toestemming heb gekregen!</p>
+                <p class="lead">Hier kun je rapportages opzoeken, lezen en bijwerken. <br/> Gelieve niet een report bij te werken van iemand anders mits je toestemming heb gekregen!</p>
             </div>
             <div class="profile-container">
                 <div class="profile-search">
                     <?php if ($_SERVER['REQUEST_METHOD'] != "POST" || $_SERVER['REQUEST_METHOD'] == "POST" && $_POST['type'] != "show") { ?>
-                        <a href="createreport" class="btn btn-pol btn-md my-0 ml-sm-2">MAAK NIEUW REPORTAGE</a>
+                        <a href="createreport" class="btn btn-pol btn-md my-0 ml-sm-2">MAAK NIEUW rapportage</a>
                     <?php } else { ?>
                         <form method="post" action="createreport">
                             <input type="hidden" name="type" value="edit">
@@ -240,7 +240,7 @@
                         <h5 class="panel-container-title">Gevonden reports..</h5>
                         <div class="panel-list">
                             <?php if (empty($search_array)) { ?>
-                                <p>Geen reportages gevonden..</p>
+                                <p>Geen rapportages gevonden..</p>
                             <?php } else { ?>
                                 <?php foreach($search_array as $report) {?>
                                     <form method="post">
@@ -263,7 +263,7 @@
                             <p>Betfreft: <?php echo $profiledata["fullname"]; ?> (<?php echo $profiledata["citizenid"]; ?>)
                         <?php } ?>
                         <hr>
-                        <strong>Reportage:</strong>
+                        <strong>rapportage:</strong>
                         <p class="report-description"><?php echo $selectedreport["report"]; ?></p>
                         <p class="report-author"><i>Geschreven door: <?php echo $selectedreport["author"]; ?></i></p>
                     </div>

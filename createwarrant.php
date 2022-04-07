@@ -15,7 +15,7 @@
             $selectedprofile = $query->fetch_assoc();
         } elseif ($_POST['type'] == "createreal") {
             $description = nl2br($_POST["description"]);
-            $insert = $con->query("INSERT INTO warrants (citizenid,description,title,naam,author) VALUES('".$con->real_escape_string($_POST['citizenid'])."','".$con->real_escape_string($description)."','".$con->real_escape_string($_POST['title'])."','".$con->real_escape_string($_POST['name'])."','".$con->real_escape_string($_POST['author'])."')");
+            $insert = $con->query("INSERT INTO warrants (citizenid,bewijs,description,title,naam,author) VALUES('".$con->real_escape_string($_POST['citizenid'])."','".$con->real_escape_string($_POST['bewijs'])."','".$con->real_escape_string($description)."','".$con->real_escape_string($_POST['title'])."','".$con->real_escape_string($_POST['name'])."','".$con->real_escape_string($_POST['author'])."')");
             if ($insert) {
                 $last_id = $con->insert_id;
                 //$_SESSION["reportid"] = $last_id;
@@ -203,6 +203,9 @@
                             </div>
                             <div class="input-group mb-3">
                                 <input type="text" name="citizenid" class="form-control login-user" value="<?php echo $selectedprofile["citizenid"]; ?>" placeholder="bsn" required>
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="text" name="bewijs" class="form-control login-user" value="" placeholder="Bewijs" required>
                             </div>
                             <div class="input-group mb-2">
                                 <textarea name="description" class="form-control" value="" placeholder="omschrijving.." required></textarea>
