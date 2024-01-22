@@ -7,7 +7,7 @@
 
     $db_hosti = "141.95.12.235";
     $db_useri = "admin";
-    $db_passi = "Jemoeder03!";
+    $db_passi = "";
     $db_datai = "qbcoreframework_264051";
 
     // $db_hosti = "localhost";
